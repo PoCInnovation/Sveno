@@ -8,7 +8,7 @@ def generateSvelteCodebase(newFolder, newFiles):
         if err.errno != errno.EEXIST:
             print('Creation of directory %s failed' % newFolder)
             exit(84)
-        print('Note: folder %s already exists' % newFolder)
+        print('Note: folder \"%s\" already exists' % newFolder)
     try:
         for newFile in newFiles:
             with open(newFolder + '/' + newFile[0], 'w') as file:
