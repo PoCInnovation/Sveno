@@ -11,7 +11,7 @@ def generateSvelteCodebase(newFolder, newFiles):
         print('Note: folder \"%s\" already exists' % newFolder)
     try:
         for newFile in newFiles:
-            with open(newFolder + '/' + newFile[0], 'w') as file:
+            with open(newFolder + '/' + "app.svelte", 'w') as file:
                 file.write(newFile[1])
     except OSError:
         print('Couldn\'t write file')

@@ -1,12 +1,13 @@
 from utils import listAllFiles
 import regex
+from parser_test import getHtmlComponents, getImportsComponents, getFunctionComponents
 from reactTypes import ClassComponent
 
 REGEXP = {
     "Class Components": regex.compile(r'(class\s(.*)\sextends\sReact\.Component\s(\{[^}{]*+(?:(?3)[^}{]*)*+\}))', regex.MULTILINE),
     "Functionnal Components": regex.compile(r'(function\s(.*)\(.*\)\s(\{[^}{]*+(?:(?1)[^}{]*)*+\})|[const|let].*=\s\(.*\)\s=>\s(?:\{[^}{]*+(?:(?2)[^}{]*)*+\}))', regex.MULTILINE),
-    "Imports": regex.compile(r'import\s.*\sfrom\s\'(?!react).*\''),
-    "HTML": regex.compile(r'<(.*)><\/.*>|<(.*).*\/>'),
+    "Imports": regex.compile(r"import\s.*\sfrom\s\'(?!react).*\'"),
+    "HTML": regex.compile(r'(return\s*)(\((?:[^)(]+|(?2))*+\))', regex.MULTILINE),
     "Variable": regex.compile(r'(const|let|var)\s(.*)\s=[^()](.*)', regex.MULTILINE)
 }
 
@@ -25,15 +26,28 @@ def applyType(array, struct):
     return typeArray
 
 def getComponents(content):
-    components = REGEXP["Class Components"].findall(content)
+    tabComponents = []
 
-    return applyType(components, ClassComponent)
+    tabComponents.append(getImportsComponents(content))
+    tabComponents.append(getHtmlComponents(content))
+    return tabComponents
+    # return applyType(components, ClassComponent)
 
 
 def reactToSvelte(content):
-    components = getComponents(content)
+    tabComponents = getComponents(content)
+    svelteContent = ""
 
-    return [getattr(x, "component") for x in components]
+    svelteContent = svelteContent + "<script>"
+    for importComponent in tabComponents[0]:
+        svelteContent = svelteContent + "\n\t"
+        svelteContent = svelteContent + importComponent
+    svelteContent = svelteContent + "\n</script>\n"
+    svelteContent = svelteContent + tabComponents[1][0]
+    svelteContent = svelteContent + "\n<style>\n\n"
+    svelteContent = svelteContent + "</style>"
+    return (svelteContent)
+    # return [getattr(x, "component") for x in components]
     # return '\n'.join(variables)
     # print(components)
     # for var in components:
