@@ -39,5 +39,4 @@ def parsingComponents(tabComponent, template):
     tab.append(concatVariables(tabComponent[1]))
     tab.append(concatHtml(tabComponent[2]))
     str = str.format(imports=tab[0], variables=tab[1], html=tab[2])
-    print(str)
     return (str)

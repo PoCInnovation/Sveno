@@ -2,14 +2,8 @@
     import logo from './logo.svg';
     import './App.css';
 
-    
-</script>
-
-<script>
-    import logo from './logo.svg';
-    import './App.css';
-
-    
+    let test = []
+    let test2 = 2
 </script>
 
 <div class="App">
@@ -29,4 +23,3 @@
         </header>
       </div>
   
-

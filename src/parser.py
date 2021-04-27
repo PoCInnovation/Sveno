@@ -47,7 +47,9 @@ def getComponents(content):
 
 def reactToSvelte(content):
     tabComponents = getComponents(content)
-    return (parsingComponents(tabComponents, TEMPLATE))
+    str = ""
+    str = parsingComponents(tabComponents, TEMPLATE)
+    return (str)
 
 
 def parseCodebase(folderPath):

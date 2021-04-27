@@ -19,6 +19,7 @@ def argumentsHandling(argv):
         sys.exit(84)
 
 def main(argv):
+    res = ""
     argumentsHandling(argv)
     res = parseCodebase(argv[1])
     print(res)
