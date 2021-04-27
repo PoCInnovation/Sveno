@@ -1,0 +1,25 @@
+name: 'functional tests'
+
+on:
+  push:
+    branches:
+      - "cd_ci"
+
+jobs:
+  functionalTests:
+    name: 'functional tests'
+    runs-on: ubuntu-20.04
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+        with:
+          ref: cd_ci
+      - name: enter src
+        run: cd src
+      - name: install requirements
+        run: pip3 install -r requirements.txt
+      - name: launch transpiler
+        run: python3 main.py ./react ./tests/src
+      - name: has job failed
+        if: ${{ failure() }}
+        run: echo "python script could not finish its task"
