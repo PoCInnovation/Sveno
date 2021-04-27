@@ -17,7 +17,10 @@ jobs:
       - name: install requirements
         run: cd src; pip3 install -r requirements.txt
       - name: launch transpiler
-        run: cd src; python3 main.py ./react ./tests/src
-      - name: has job failed
+        run: cd src; python3 main.py ./react ./tests/src > result.txt 2> errors.txt
+      - name: load failure artifact
         if: ${{ failure() }}
-        run: echo "python script could not finish its task"
+        uses: actions/upload-artifact@v2
+        with:
+          name: pythonErrorReport.txt
+          path: ./src/errors.txt
