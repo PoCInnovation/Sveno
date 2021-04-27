@@ -42,7 +42,7 @@ def reactToSvelte(content):
     for importComponent in tabComponents[0]:
         svelteContent = svelteContent + "\n\t"
         svelteContent = svelteContent + importComponent
-    svelteContent = svelteContent + "\n</script>\n"
+    svelteContent = svelteContent + "\n</script>\n\n"
     svelteContent = svelteContent + tabComponents[1][0]
     svelteContent = svelteContent + "\n<style>\n\n"
     svelteContent = svelteContent + "</style>"
