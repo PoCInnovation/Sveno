@@ -17,7 +17,7 @@ jobs:
       - name: install requirements
         run: cd src; pip3 install -r requirements.txt
       - name: launch transpiler
-        run: ls; python3 main.py ./react ./tests/src
+        run: cd src; python3 main.py ./react ./tests/src
       - name: has job failed
         if: ${{ failure() }}
         run: echo "python script could not finish its task"
