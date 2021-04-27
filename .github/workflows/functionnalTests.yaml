@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - "cd_ci"
+      - "dev"
 
 jobs:
   functionnalTestsPython:
@@ -13,7 +14,7 @@ jobs:
       - name: checkout
         uses: actions/checkout@v2
         with:
-          ref: cd_ci
+          ref: ${{ github.ref }}
       - name: install requirements
         run: cd src; pip3 install -r requirements.txt
       - name: launch transpiler
@@ -37,7 +38,7 @@ jobs:
       - name: checkout
         uses: actions/checkout@v2
         with:
-          ref: cd_ci
+          ref: ${{ github.ref }}
       - name: check svelte files
         run: cd src/svelte; npm i; npm run test &> result.txt
       - name: 'load tests artifact'
