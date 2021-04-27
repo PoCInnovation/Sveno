@@ -1,4 +1,4 @@
-name: 'functionnal test python'
+name: 'functionnal tests svelte'
 
 on:
   push:
