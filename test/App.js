@@ -1,6 +1,9 @@
 import logo from './logo.svg';
 import './App.css';
 
+let test = [];
+let test2 = 2;
+
 function App() {
   return (
       <div className="App">

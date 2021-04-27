@@ -4,7 +4,7 @@ REGEXP_TEST = {
     "function": regex.compile(r'(function.*\))', regex.MULTILINE),
     "Imports": regex.compile(r"import.*"),
     "HTML": regex.compile(r'(<(?:[^)(]+|(?1))*+)', regex.MULTILINE),
-    "Variable": regex.compile(r'(const|let|var)\s(.*)\s=[^()](.*)', regex.MULTILINE),
+    "Variable": regex.compile(r'(const|let|var)\s+([a-zA-Z0-9_-]+)\s*=\s*([^;]+)', regex.MULTILINE),
     "ClassName": regex.compile(r"className")
 }
 
@@ -20,3 +20,7 @@ def getImportsComponents(content):
 def getFunctionComponents(content):
     functionComponents = REGEXP_TEST["function"].findall(content)
     return (functionComponents)
+
+def getVariableComponents(content):
+    varComponents = REGEXP_TEST["Variable"].findall(content)
+    return (varComponents)

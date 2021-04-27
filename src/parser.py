@@ -1,7 +1,8 @@
 from utils import listAllFiles
 import regex
-from parser_test import getHtmlComponents, getImportsComponents, getFunctionComponents
+from parser_test import getHtmlComponents, getImportsComponents, getFunctionComponents, getVariableComponents
 from reactTypes import ClassComponent
+from parsingComponent import parsingComponents
 
 REGEXP = {
     "Class Components": regex.compile(r'(class\s(.*)\sextends\sReact\.Component\s(\{[^}{]*+(?:(?3)[^}{]*)*+\}))', regex.MULTILINE),
@@ -10,6 +11,15 @@ REGEXP = {
     "HTML": regex.compile(r'(return\s*)(\((?:[^)(]+|(?2))*+\))', regex.MULTILINE),
     "Variable": regex.compile(r'(const|let|var)\s(.*)\s=[^()](.*)', regex.MULTILINE)
 }
+
+TEMPLATE = """<script>
+    {imports}
+
+    {variables}
+</script>
+
+{html}
+"""
 
 # Variable = namedtuple("Variable" ,"qualifier name value")
 # Component = namedtuple("Component", "component name content")
@@ -29,6 +39,7 @@ def getComponents(content):
     tabComponents = []
 
     tabComponents.append(getImportsComponents(content))
+    tabComponents.append(getVariableComponents(content))
     tabComponents.append(getHtmlComponents(content))
     return tabComponents
     # return applyType(components, ClassComponent)
@@ -36,39 +47,8 @@ def getComponents(content):
 
 def reactToSvelte(content):
     tabComponents = getComponents(content)
-    svelteContent = ""
+    return (parsingComponents(tabComponents, TEMPLATE))
 
-    svelteContent = svelteContent + "<script>"
-    for importComponent in tabComponents[0]:
-        svelteContent = svelteContent + "\n\t"
-        svelteContent = svelteContent + importComponent
-    svelteContent = svelteContent + "\n</script>\n\n"
-    svelteContent = svelteContent + tabComponents[1][0]
-    svelteContent = svelteContent + "\n<style>\n\n"
-    svelteContent = svelteContent + "</style>"
-    return (svelteContent)
-    # return [getattr(x, "component") for x in components]
-    # return '\n'.join(variables)
-    # print(components)
-    # for var in components:
-    #     if type(var) is tuple:
-    #         components = components + [x for x in var if x != ""]
-    #         components.remove(var)
-    # print("IMPORTS")
-    # print(imports)
-    # print("COMPONENTS")
-    # print(components, end="\n\n")
-#     return """<script>
-#     {imports}
-
-#     {variables}
-
-#     {functions}
-# </script>
-
-# {html}
-# {components}
-# """.format(imports = '\n\t'.join(imports), variables = variables, functions = functions, html = html, components='\n'.join(components))
 
 def parseCodebase(folderPath):
     reactFiles = listAllFiles(folderPath)
