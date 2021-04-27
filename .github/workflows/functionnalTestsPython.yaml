@@ -41,7 +41,7 @@ jobs:
       - name: check svelte files
         run: cd src/svelte; npm i; npm run test 2> result.txt
       - name: 'load tests artifact'
-      if: ${{ always() }}
+        if: ${{ always() }}
         uses: actions/upload-artifact@v2
         with:
           name: rendering_tests_output.txt
