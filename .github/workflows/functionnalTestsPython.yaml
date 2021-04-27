@@ -17,7 +17,7 @@ jobs:
       - name: install requirements
         run: cd src; pip3 install -r requirements.txt
       - name: launch transpiler
-        run: cd src; python3 main.py ./react ./tests/src > result.txt  2>> result.txt
+        run: cd src; python3 main.py ./react ./svelte/src > result.txt  2>> result.txt
       - name: load failure artifact
         if: ${{ failure() }}
         uses: actions/upload-artifact@v2
