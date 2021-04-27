@@ -1,4 +1,4 @@
-name: 'functional tests'
+name: 'functionnal test python'
 
 on:
   push:
@@ -6,8 +6,8 @@ on:
       - "cd_ci"
 
 jobs:
-  functionalTests:
-    name: 'functional tests'
+  functionnalTests:
+    name: 'Does it run?'
     runs-on: ubuntu-20.04
     steps:
       - name: checkout
@@ -17,10 +17,16 @@ jobs:
       - name: install requirements
         run: cd src; pip3 install -r requirements.txt
       - name: launch transpiler
-        run: cd src; python3 main.py ./react ./tests/src > result.txt 2> errors.txt
+        run: cd src; python3 main.py ./react ./tests/src > result.txt  2>> result.txt
       - name: load failure artifact
         if: ${{ failure() }}
         uses: actions/upload-artifact@v2
         with:
           name: pythonErrorReport.txt
-          path: ./src/errors.txt
+          path: ./src/result.txt
+      - name: load succes artifact
+        if: ${{ success() }}
+        uses: actions/upload-artifact@v2
+        with:
+          name: pythonSuccessReport.txt
+          path: ./src/result.txt

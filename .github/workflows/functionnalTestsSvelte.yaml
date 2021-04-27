@@ -1,0 +1,24 @@
+name: 'functionnal test python'
+
+on:
+  push:
+    branches:
+      - "cd_ci"
+
+jobs:
+  functionnalTests:
+    name: 'Do components render?'
+    runs-on: ubuntu-20.04
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+        with:
+          ref: cd_ci
+      - name: check svelte files
+        run: cd src/svelte; npm i; npm run test 2> result.txt
+      - name: load tests artifact
+      if: ${{ always() }}
+        uses: actions/upload-artifact@v2
+        with:
+          name: rendering_tests_output.txt
+          path: ./src/svelte/result.txt
