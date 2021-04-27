@@ -8,10 +8,9 @@ const files = [
 ]
 
 describe("Files", () => {
-    test("should exist", () => {
-        files.map((file) => {
-          console.log(file)
-          expect(fs.existsSync(file)).toBe(true);
+    files.map((file) => {
+        test(`${file} should exist`, () => {
+            expect(fs.existsSync(file)).toBe(true);
         })
     })
 })
