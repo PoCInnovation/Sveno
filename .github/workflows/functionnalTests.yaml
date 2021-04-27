@@ -31,7 +31,7 @@ jobs:
           name: pythonSuccessReport.txt
           path: ./src/result.txt
   functionnalTestsSvelte:
-    name: 'Do components render?'
+    name: 'Do components work?'
     runs-on: ubuntu-20.04
     steps:
       - name: checkout
@@ -39,7 +39,7 @@ jobs:
         with:
           ref: cd_ci
       - name: check svelte files
-        run: cd src/svelte; npm i; npm run test 2> result.txt
+        run: cd src/svelte; npm i; npm run test 2>&1 > result.txt
       - name: 'load tests artifact'
         if: ${{ always() }}
         uses: actions/upload-artifact@v2
