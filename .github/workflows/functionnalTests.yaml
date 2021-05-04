@@ -30,7 +30,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: pythonSuccessReport.txt
-          path: ./src/result.txt
+          path: ./result.txt
   functionnalTestsSvelte:
     name: 'Do components work?'
     runs-on: ubuntu-20.04
