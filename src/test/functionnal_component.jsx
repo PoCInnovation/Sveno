@@ -6,4 +6,8 @@ const Test = (props) => {
     );
 }
 
+function test() {
+    let i = 0
+}
+
 export default Test;

@@ -1,9 +1,11 @@
-import React from 'react'
+<script>
+    
 
-const Test = (props) => {
-    return (
-        <h1>Salut, {props.name}</h1>
-    );
-}
+    const Test = (props)
+	let i = 0
 
-export default Test;
+    
+</script>
+
+
+
