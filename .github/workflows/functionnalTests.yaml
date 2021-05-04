@@ -46,4 +46,4 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: rendering_tests_output.txt
-          path: ./src/svelte/result.txt
+          path: ./tests/svelte/result.txt
