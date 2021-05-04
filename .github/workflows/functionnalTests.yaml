@@ -18,7 +18,7 @@ jobs:
       - name: install requirements
         run: cd src; pip3 install -r requirements.txt
       - name: launch transpiler
-        run: cd src; python3 main.py ./react ./svelte/src > result.txt  2>> result.txt
+        run: python3 ./src/main.py ../tests/react ../tests/svelte/src > result.txt  2>> result.txt
       - name: load failure artifact
         if: ${{ failure() }}
         uses: actions/upload-artifact@v2
@@ -40,7 +40,7 @@ jobs:
         with:
           ref: ${{ github.ref }}
       - name: check svelte files
-        run: cd src/svelte; npm i; npm run test &> result.txt
+        run: cd tests/svelte; npm i; npm run test &> result.txt
       - name: 'load tests artifact'
         if: ${{ always() }}
         uses: actions/upload-artifact@v2
