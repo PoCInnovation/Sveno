@@ -14,4 +14,4 @@ def generateSvelteCodebase(newFolder, newFiles):
             with open(newFolder + '/' + newFile[0], 'w') as file:
                 file.write(newFile[1])
     except OSError:
-        print('Couldn\'t write file')
+        print('Couldn\'t write to file')
