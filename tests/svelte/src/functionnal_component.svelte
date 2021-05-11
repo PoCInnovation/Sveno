@@ -1,6 +1,9 @@
 <script>
-    export let name;
+    
+
+    const Test = (props)
+let i = 0
 
 </script>
 
-<h1>Bonjour, {name}</h1>
+<h1>Salut, {props.name}</h1>

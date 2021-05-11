@@ -1,9 +1,8 @@
 <script>
-    let clicks = 0;
-    function IncrementItem() {
-      clicks += 1;
-    }
+    
+
+    const IncrementItem = ()
+
 </script>
 
-
-<button on:click={IncrementItem}>Count is {clicks}</button>
+<button onClick={IncrementItem}>Count is {count}</button>
