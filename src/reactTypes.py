@@ -34,6 +34,18 @@ class Function:
     def toStr(self):
         return self.prototype + self.content
 
+@dataclass
+class Component:
+    name: str
+    htmlContent: str
+    imports: List[str] = field(default_factory=list)
+    variables: List[Variable] = field(default_factory=list)
+    def toStr(self):
+        imports = "\n\t".join(self.imports)
+        variables = "\n\t".join([x.toStr() for x in self.variables])
+        return TEMPLATE_SVELTE.format(html=self.htmlContent, imports=imports, variables=variables)
+
+
 matchTab = {
     FunctionnalComponent: [1, 2],
     ClassComponent: [1,2],

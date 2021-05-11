@@ -1,17 +1,23 @@
 from os import mkdir
 import errno
 
-def generateSvelteCodebase(newFolder, newFiles):
+def createFolder(filepath):
     try:
-        mkdir(newFolder)
+        mkdir(filepath)
     except OSError as err:
         if err.errno != errno.EEXIST:
-            print('Creation of directory %s failed' % newFolder)
+            print('Creation of directory %s failed' % filepath)
             exit(84)
-        print('Note: folder \"%s\" already exists' % newFolder)
+        # print('Note: folder \"%s\" already exists' % filepath)
+
+def createFile(filepath, content):
     try:
-        for newFile in newFiles:
-            with open(newFolder + '/' + newFile[0], 'w') as file:
-                file.write(newFile[1])
+        with open(filepath, 'w') as file:
+            file.write(content)
     except OSError:
         print('Couldn\'t write to file')
+
+def generateSvelteCodebase(newFolder, newFiles):
+    createFolder(newFolder)
+    for newFile in newFiles:
+        createFile(newFolder + '/' + newFile[0], newFile[1])
