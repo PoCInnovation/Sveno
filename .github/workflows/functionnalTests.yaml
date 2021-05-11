@@ -1,0 +1,49 @@
+name: 'functionnal tests'
+
+on:
+  push:
+    branches:
+      - "cd_ci"
+      - "dev"
+
+jobs:
+  functionnalTestsPython:
+    name: 'Does it run?'
+    runs-on: ubuntu-20.04
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ github.ref }}
+      - name: install requirements
+        run: cd src; pip3 install -r requirements.txt
+      - name: launch transpiler
+        run: python3 ./src/main.py ../tests/react ../tests/svelte/src > result.txt  2>> result.txt
+      - name: load failure artifact
+        if: ${{ failure() }}
+        uses: actions/upload-artifact@v2
+        with:
+          name: pythonErrorReport.txt
+          path: ./result.txt
+      - name: load succes artifact
+        if: ${{ success() }}
+        uses: actions/upload-artifact@v2
+        with:
+          name: pythonSuccessReport.txt
+          path: ./result.txt
+  functionnalTestsSvelte:
+    name: 'Do components work?'
+    runs-on: ubuntu-20.04
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ github.ref }}
+      - name: check svelte files
+        run: cd tests/svelte; npm i; npm run test &> result.txt
+      - name: 'load tests artifact'
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v2
+        with:
+          name: rendering_tests_output.txt
+          path: ./tests/svelte/result.txt
