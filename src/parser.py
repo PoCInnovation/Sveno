@@ -44,7 +44,7 @@ def parseComponent(component, imports):
     props = useRegex("props", html, None)
     for i in range(len(props)):
         html = regex.sub("props.", "", html)
-        variables.append(Variable("export let", props[i], "0"))
+        variables.append(Variable("export let", props[i], "undefined"))
     component = Component(component.name, html, imports, variables)
     return component
 
