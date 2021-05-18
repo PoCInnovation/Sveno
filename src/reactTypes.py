@@ -5,7 +5,7 @@ from template import *
 @dataclass
 class FunctionnalComponent:
     name: str
-    prototype: str
+    args: str
     content: str
     def toStr(self):
         return self.content
@@ -39,6 +39,7 @@ class Component:
     name: str
     htmlContent: str
     imports: List[str] = field(default_factory=list)
+    # globalVariables: List[Variable] = field(default_factory=list)
     variables: List[Variable] = field(default_factory=list)
     def toStr(self):
         imports = "\n\t".join(self.imports)
@@ -47,8 +48,8 @@ class Component:
 
 
 matchTab = {
-    FunctionnalComponent: [1, 2],
-    ClassComponent: [1,2],
+    FunctionnalComponent: [0, 1, 2],
+    ClassComponent: [1, 2],
     Variable: [0, 1, 2],
-    Function: [1,2]
+    Function: [1, 2]
 }
