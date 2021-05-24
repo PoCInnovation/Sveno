@@ -3,6 +3,7 @@ import regex
 import numpy as np
 from reactTypes import ClassComponent, Variable, matchTab
 from template import TEMPLATE_SVELTE
+from parsing_css import parseCss
 
 REGEXP = {
     "Class Component": regex.compile(r'(class\s+([a-zA-Z0-9_-]+)\s+extends\s+(?:React\.)?Component\s*({((?>[^{}]+|(?3))*)}))', regex.MULTILINE),
@@ -18,9 +19,9 @@ def applyType(matches, struct):
     typeArray = []
 
     for match in matches:
-        print(match)
+        # print(match)
         elem = [np.asarray(match)[index] for index in matchTab[struct]]
-        print(elem)
+        # print(elem)
         typeArray.append(struct(*elem))
     return typeArray
 
@@ -36,19 +37,20 @@ def useRegex(names, content, struct):
     return matches
 
 
-def reactToSvelte(content):
+def reactToSvelte(content, path):
     # components = useRegex(["Class Component", "Functionnal Component"], content)
-    regex.sub("className", "class", content)
+    content = regex.sub("className", "class", content)
     imports = useRegex(["Import"], content, None)
     globalsVar = useRegex(["Variable"], content, Variable)
     html = useRegex(["HTML"], content, None)
+    css = parseCss(content, path)
+    # print("Imports = ", imports)
+    # print("Variables = ", globalsVar)
+    # print("Unified variables = ", "\n".join([x.toStr() for x in globalsVar]));
+    # print("HTML = ", html)
+    print("css = ", css)
 
-    print("Imports = ", imports)
-    print("Variables = ", globalsVar)
-    print("Unified variables = ", "\n".join([x.toStr() for x in globalsVar]));
-    print("HTML = ", html)
-
-    return TEMPLATE_SVELTE.format(imports="\n".join(imports), variables="\n".join([x.toStr() for x in globalsVar]), html="\n".join(html))
+    return TEMPLATE_SVELTE.format(imports="\n".join(imports), variables="\n".join([x.toStr() for x in globalsVar]), html="\n".join(html), style=css)
 
 def parseCodebase(folderPath):
     reactFiles = listAllFiles(folderPath)
@@ -58,5 +60,5 @@ def parseCodebase(folderPath):
         with open(reactFile, 'r') as file:
             svelteFiles.append((
                 reactFile.replace(".jsx", ".svelte").replace(folderPath + "/", ""),
-                reactToSvelte(file.read())))
+                reactToSvelte(file.read(), reactFile)))
     return svelteFiles

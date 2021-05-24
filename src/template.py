@@ -6,6 +6,12 @@ TEMPLATE_SVELTE = """<script>
 </script>
 
 {html}
+
+<style>
+
+{style}
+
+</style>
 """
 
 TEMPLATE_VARIABLE = "{qualifier} {name} = {value}"
