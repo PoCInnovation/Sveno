@@ -48,7 +48,7 @@ def reactToSvelte(content, path):
     # print("Variables = ", globalsVar)
     # print("Unified variables = ", "\n".join([x.toStr() for x in globalsVar]));
     # print("HTML = ", html)
-    print("css = ", css)
+    # print("css = ", css)
 
     return TEMPLATE_SVELTE.format(imports="\n".join(imports), variables="\n".join([x.toStr() for x in globalsVar]), html="\n".join(html), style=css)
 
