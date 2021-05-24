@@ -1,19 +1,33 @@
-from numpy import array
+from typing import final
+from numpy import array, e
 import regex
 from regex.regex import Pattern
 
 REGEXP = {
    "Import Css": regex.compile(r'import\s+\'(.*.css)\''),
    "Path Css": regex.compile(r'.*\/(.*)'),
-   "Class Css": regex.compile(r'class=\"(.*)\"'),
-   "Tag Css": regex.compile(r'.(App.*)\s+(\{(?:[^.@]+|(?2))\})|@.*(App).*(\{(?:[^.]+|(?1))\})')
+   "Tag Css": regex.compile(r'.(App)\s+(\{(?:[^.@]+|(?2))\})'),
+   "Class Css": regex.compile(r'class=(\"((?:[^\"]+|(?1)))\")')
 }
 
-TEMPLATE_TAG_CSS = '.({var}.*)\s+(\{(?:[^.@]+|(?2))\})'
+TEMPLATE_TAG_CSS = '.{var}'
 TEMPLATE_SPE_FLAG = '|@.*({var}).*(\{(?:[^.]+|(?1))\})'
 
 def search_class(content, css):
-   print("content = ", content)
+   # print("content = ", content)
+   class_names = REGEXP['Class Css'].findall(content)
+   end = '\s+\{(?:[^.@]+|(?0))\}'
+   final_css = ''
+
+   if class_names:
+      for test in class_names:
+         begin = TEMPLATE_TAG_CSS.format(var=test[1])
+         pattern = begin + end
+         re_pattern = regex.compile(pattern)
+         pattern = re_pattern.findall(css)
+         final_css = final_css + '\n' + pattern[0]
+   print(final_css)
+   return (final_css)
 
 def openCssFile(result, path):
    Pattern = REGEXP['Path Css'].findall(path)
@@ -28,7 +42,7 @@ def parseCss(content, path):
 
    if result:
       css = openCssFile(result[0], path)
-      search_class(content, css)
+      css = search_class(content, css)
       return (css)
    else :
       return (css)

@@ -7,10 +7,7 @@ TEMPLATE_SVELTE = """<script>
 
 {html}
 
-<style>
-
-{style}
-
+<style>{style}
 </style>
 """
 
