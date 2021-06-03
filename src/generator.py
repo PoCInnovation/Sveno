@@ -18,7 +18,11 @@ def createFile(filepath, content):
         print('Couldn\'t write to file')
 
 def generateSvelteCodebase(newFolder, newFiles):
+    fullPath = ""
+
     createFolder(newFolder)
     for newFile in newFiles:
+        fullPath = newFolder + '/' + newFile[0]
+        createFolder(fullPath)
         for component in newFile[1]:
-            createFile(newFolder + '/' + component.name + ".svelte", component.toStr())
+            createFile(fullPath + '/' + component.name + ".svelte", component.toStr())
