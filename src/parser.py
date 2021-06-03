@@ -56,11 +56,14 @@ def sortFunctionTypes(functions):
     for fc in functions:
         elem = REGEXP["HTML"].findall(fc.content)
         if len(elem) > 0:
+            fc = [fc.name, fc.args, fc.content]
             functionnalComponents.append(fc)
         else:
             fc = ["function "+ fc.name + fc.args, fc.name, fc.args, fc.content]
             normalFunctions.append(fc)
+    functionnalComponents = applyType(functionnalComponents, FunctionnalComponent)
     normalFunctions = applyType(normalFunctions, NormalFunction)
+
     return functionnalComponents, normalFunctions
 
 def reactToSvelte(content):
