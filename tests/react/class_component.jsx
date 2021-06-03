@@ -1,5 +1,5 @@
 import React from 'react'
-import test from 'test'
+import axios from 'axios'
 
 class CCWelcome extends React.Component {
   render() {

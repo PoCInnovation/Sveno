@@ -1,5 +1,5 @@
 <script>
-    import test from 'test'
+    import axios from 'axios'
 
     export let name = undefined
 
