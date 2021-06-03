@@ -1,3 +1,4 @@
+
 import regex
 
 REGEXP = {
@@ -13,7 +14,7 @@ TEMPLATE_TAG_CSS = r'.{var}{end}'
 def search_spe_class(css, final_css):
    spe_css = REGEXP['@ Css'].findall(css)
 
-   if final_css:
+   if spe_css:
       final_css = final_css + '\n' + spe_css[0]
    return (final_css)
 
