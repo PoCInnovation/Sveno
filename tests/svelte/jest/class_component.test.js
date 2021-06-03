@@ -1,4 +1,4 @@
-import Class_component from "../src/class_component.svelte"
+import Class_component from "../src/CCWelcome.svelte"
 
 import { render } from '@testing-library/svelte'
 import '@testing-library/jest-dom/extend-expect'

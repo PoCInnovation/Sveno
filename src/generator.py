@@ -21,4 +21,5 @@ def generateSvelteCodebase(newFolder, newFiles):
     createFolder(newFolder)
     for newFile in newFiles:
         for component in newFile[1]:
+            print(component.toStr())
             createFile(newFolder + '/' + component.name + ".svelte", component.toStr())

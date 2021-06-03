@@ -22,7 +22,7 @@ def main(argv):
     res = ""
     argumentsHandling(argv)
     res = parseCodebase(argv[1])
-    print(res)
+    # print(res)
     generateSvelteCodebase(argv[2], res)
 
 if __name__ == '__main__':

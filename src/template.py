@@ -3,6 +3,8 @@ TEMPLATE_SVELTE = """<script>
 
     {variables}
 
+    {functions}
+
 </script>
 
 {html}
