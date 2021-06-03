@@ -1,9 +1,9 @@
 import React from 'react'
-import test from 'test'
+import './App.css'
 
 class Welcome extends React.Component {
   render() {
-    return <h1>Bonjour, {this.props.name}</h1>;
+    return <h1 className="App">Bonjour, {this.props.name}</h1>;
   }
 }
 
