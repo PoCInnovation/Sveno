@@ -19,10 +19,16 @@ Congratz \\(^o^)/ ! You're ready to go!
 
 ### Usage
 
-
+The program takes 2 arguments: the react source folder and a svelte destination folder
 
 `python3  ./src/main.py react_source_folder svelte_destination_folder`
 
 ### How does it work
 
 Using a set of regex, variables, functions, components and imports are gathered and re-assembled into lighter and smooth Svelte syntax.
+
+## Contributors:
+- [Allan](https://github.com/Gfaim)
+- [Amoz Pay](https://github.com/amozpay)
+- [Baptiste Barbotin](https://github.com/barbo69)
+- [Tom Chaveau](https://github.com/TomChv)
