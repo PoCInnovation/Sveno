@@ -1,6 +1,6 @@
 import React from 'react'
 
-const Test2 = (props) => {
+const FCTest = (props) => {
     return (
         <h1>Salut, {props.name}</h1>
     );

@@ -1,4 +1,4 @@
-import UseState from "../src/useState.svelte"
+import UseState from "../src/USCounter.svelte"
 
 import { render, fireEvent } from '@testing-library/svelte'
 import '@testing-library/jest-dom/extend-expect'

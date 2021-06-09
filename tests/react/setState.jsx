@@ -1,6 +1,6 @@
 import React from 'react'
 
-class Counterr extends React.Component {
+class SSCounter extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
