@@ -1,5 +1,6 @@
 from dataclasses import replace
 from locale import normalize
+from typing import Iterable, Tuple, Union
 from utils import listAllFiles
 import regex
 import numpy as np
@@ -16,7 +17,7 @@ REGEXP = {
     "props": regex.compile(r'props\.([A-Za-z0-9_-]+)')
 }
 
-def applyType(matches, struct):
+def applyType(matches: list, struct: type) -> list:
     typeArray = []
 
     for match in matches:
@@ -24,7 +25,7 @@ def applyType(matches, struct):
         typeArray.append(struct(*elem))
     return typeArray
 
-def useRegex(name, content, struct):
+def useRegex(name: str, content: str, struct: type) -> list:
     matches = []
 
     match = REGEXP[name].findall(content)
@@ -37,20 +38,25 @@ def useRegex(name, content, struct):
         matches += match
     return matches
 
-def parseComponent(component, imports, functions):
+def parseComponent(component: Component, imports: list, functions: list) -> Component:
     variables = useRegex("Variable", component.content, Variable)
     html = "".join(useRegex("HTML", component.content, None))
     if isinstance(component, ClassComponent):
         html = regex.sub("this.", "", html)
     html = regex.sub("onClick={", "on:click={", html)
     props = useRegex("props", html, None)
+    functions += useRegex("Function", component.content, Function)
+    for func in functions:
+        for var in variables:
+            if var.name == func.name:
+                variables.remove(var)
     for i in range(len(props)):
         html = regex.sub("props.", "", html)
         variables.append(Variable("export let", props[i], "undefined"))
     component = Component(component.name, html, imports, variables, functions)
     return component
 
-def sortFunctionTypes(functions):
+def sortFunctionTypes(functions: list) -> Tuple[list, list]:
     functionnalComponents = []
     normalFunctions = []
     for fc in functions:
@@ -66,7 +72,7 @@ def sortFunctionTypes(functions):
 
     return functionnalComponents, normalFunctions
 
-def reactToSvelte(content):
+def reactToSvelte(content: str) -> list:
     content = regex.sub("className", "class", content)
     components = []
     functions = useRegex("Function", content, Function)
@@ -74,16 +80,13 @@ def reactToSvelte(content):
     classComponent = useRegex("Class Component", content, ClassComponent)
     imports = useRegex("Import", content, None)
 
-    # print("CLASS COMPONENTS = ", classComponent)
-    # print("FUNCTIONNAL COMPONENTS = ", functionnalComponent)
-
     for fc in functionnalComponents:
         components.append(parseComponent(fc, imports, normalFunctions))
     for cc in classComponent:
         components.append(parseComponent(cc, imports, normalFunctions))
     return components
 
-def parseCodebase(folderPath):
+def parseCodebase(folderPath: str) -> list:
     reactFiles = listAllFiles(folderPath)
     components = []
 

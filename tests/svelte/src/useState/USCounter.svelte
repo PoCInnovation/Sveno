@@ -1,9 +1,7 @@
 <script>
-    
-
-    const IncrementItem = ()
-
-    
+  const IncrementItem = () => {
+    setCount(count + 1);
+  };
 
 </script>
 

@@ -11,3 +11,5 @@ TEMPLATE_SVELTE = """<script>
 """
 
 TEMPLATE_VARIABLE = "{qualifier} {name} = {value}"
+
+TEMPLATE_FUNCTION = "{qualifier} {name} = {args} => {content}"

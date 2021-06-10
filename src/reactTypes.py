@@ -31,7 +31,7 @@ class Function:
     args: str
     content: str
     def toStr(self):
-        return self.content
+        return TEMPLATE_FUNCTION.format(qualifier="const", name=self.name, args= self.args, content=self.content)
 
 @dataclass
 class NormalFunction:
@@ -47,7 +47,6 @@ class Component:
     name: str
     htmlContent: str
     imports: List[str] = field(default_factory=list)
-    # globalVariables: List[Variable] = field(default_factory=list)
     variables: List[Variable] = field(default_factory=list)
     functions: List[NormalFunction] = field(default_factory=list)
     def toStr(self):
