@@ -51,4 +51,9 @@
     transform: rotate(360deg);
   }
 }
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
 </style>

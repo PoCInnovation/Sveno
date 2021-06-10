@@ -1,4 +1,3 @@
-
 import regex
 
 REGEXP = {
@@ -6,16 +5,22 @@ REGEXP = {
    "Path Css": regex.compile(r'.*\/(.*)'),
    "Tag Css": regex.compile(r'.(App)\s+(\{(?:[^.@]+|(?2))\})'),
    "Class Css": regex.compile(r'class=(\"((?:[^\"]+|(?1)))\")'),
-   "@ Css": regex.compile(r'@.*\{(?:[^.]+|(?0))\}')
+   "@ Css": regex.compile(r'@.*\{(?:[^.]+|(?0))\}'),
+   "in @media Css": regex.compile(r'@media.*(\{(?:[^}{]+|(?1))*+\})'),
+   "out @media Css": regex.compile(r'@media[^{]*')
+   
 }
 
 TEMPLATE_TAG_CSS = r'.{var}{end}'
 
 def search_spe_class(css, final_css):
    spe_css = REGEXP['@ Css'].findall(css)
+   in_media_css = REGEXP['in @media Css'].findall(css)
+   out_media_css = REGEXP['out @media Css'].findall(css)
 
    if final_css:
       final_css = final_css + '\n' + spe_css[0]
+      final_css = final_css + '\n' + (out_media_css[0] + in_media_css[0])
    return (final_css)
 
 def search_class(content, css):
