@@ -1,7 +1,7 @@
 import React from 'react'
 import './App.css'
 
-class Counter extends React.Component {
+class SSCounter extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -18,4 +18,4 @@ class Counter extends React.Component {
     }
 }
 
-export default Counter;
+export default Counterr;

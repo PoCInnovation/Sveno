@@ -1,6 +1,6 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 
-function Counter() {
+function USCounter() {
 
     const [count, setCount] = useState(0);
 

@@ -1,13 +1,13 @@
 import React from 'react'
-import './App.css'
+import axios from 'axios'
 
-class Welcome extends React.Component {
+class CCWelcome extends React.Component {
   render() {
     return <h1 className="App">Bonjour, {this.props.name}</h1>;
   }
 }
 
-class Test extends React.Component {
+class CCWelcome2 extends React.Component {
   render() {
     return <h1>Test</h1>;
   }
