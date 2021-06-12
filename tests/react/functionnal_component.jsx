@@ -1,6 +1,7 @@
 import React from 'react'
+import './App.css'
 
-const Test = (props) => {
+const FCTest = (props) => {
     return (
         <h1>Salut, {props.name}</h1>
     );
