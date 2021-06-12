@@ -1,4 +1,4 @@
-import Functionnal_component from "../src/FCTest.svelte"
+import Functionnal_component from "../src/functionnal_component/FCTest.svelte"
 
 import { render } from '@testing-library/svelte'
 import '@testing-library/jest-dom/extend-expect'

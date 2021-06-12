@@ -1,4 +1,4 @@
-import setState from "../src/SSCounter.svelte"
+import setState from "../src/setState/SSCounter.svelte"
 
 import { render, fireEvent } from '@testing-library/svelte'
 import '@testing-library/jest-dom/extend-expect'
