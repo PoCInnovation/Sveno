@@ -28,7 +28,7 @@ The program takes 2 arguments: the react source folder and a svelte destination 
 Using a set of regex, key elements are gathered and formatted, and unused ones are simply left out (as an exemple, no need for SetStates or UseStates). Each component is transpiled into a `.svelte` that keeps the component's name, in a folder that matches the original `.react` or `.jsx` file name.
 
 ## Contributors:
-- [Allan](https://github.com/Gfaim)
+- [Allan Deleve](https://github.com/Gfaim)
 - [Amoz Pay](https://github.com/amozpay)
 - [Baptiste Barbotin](https://github.com/barbo69)
 - [Tom Chaveau](https://github.com/TomChv)
