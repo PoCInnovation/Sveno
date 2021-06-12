@@ -9,8 +9,15 @@ describe("setState", () => {
         const button = getByText('Count is 0');
 
         expect(button).toBeInTheDocument();
-        await fireEvent.click(button);
+    })
+})
 
+describe("setState", () => {
+    test("Clicks should work", async () => {
+        const { getByText } = render (setState);
+        const button = getByText('Count is 0');
+
+        await fireEvent.click(button);
         expect(button).toHaveTextContent('Count is 1')
         await fireEvent.click(button);
         await fireEvent.click(button);
