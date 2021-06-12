@@ -1,9 +1,5 @@
 <script>
-    
-
-    export let number = undefined
-
-    
+  export let number = undefined;
 
 </script>
 

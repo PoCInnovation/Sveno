@@ -1,11 +1,9 @@
 <script>
-    
+  export let name = undefined;
 
-    export let name = undefined
-
-    function test() {
-    let i = 0
-}
+  function test() {
+    let i = 0;
+  }
 
 </script>
 

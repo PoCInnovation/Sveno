@@ -1,11 +1,8 @@
-from dataclasses import replace
-from locale import normalize
-from typing import Iterable, Tuple, Union
+from typing import Tuple
 from utils import listAllFiles
 import regex
 import numpy as np
 from reactTypes import ClassComponent, Variable, matchTab
-from template import TEMPLATE_SVELTE
 from parsing_css import parseCss
 from reactTypes import *
 
@@ -41,21 +38,49 @@ def useRegex(name: str, content: str, struct: type) -> list:
         matches += match
     return matches
 
-def parseComponent(component: Component, imports: list, functions: list, css: str) -> Component:
-    variables = useRegex("Variable", component.content, Variable)
-    html = "".join(useRegex("HTML", component.content, None))
-    if isinstance(component, ClassComponent):
-        html = regex.sub("this.", "", html)
-    html = regex.sub("onClick={", "on:click={", html)
-    props = useRegex("props", html, None)
+def parseFunctions(component: Component, functions: list, variables: list) -> List:
     functions += useRegex("Function", component.content, Function)
     for func in functions:
         for var in variables:
             if var.name == func.name:
                 variables.remove(var)
+    return functions
+
+def parseProps(html, variables):
+    props = useRegex("props", html, None)
     for i in range(len(props)):
         html = regex.sub("props.", "", html)
         variables.append(Variable("export let", props[i], "undefined"))
+    return html, variables
+
+def parseReactEvents(html):
+    html = regex.sub("onClick={", "on:click={", html)
+    return html
+
+def parseReactHook(content, html, functions, variables):
+    hookParser = r'\s*\((.*)\))'
+    state = useRegex("useState", content, None)
+    for var in state:
+        variables.append(Variable("let", var[1], var[3]))
+        hookParser = regex.compile(f'({var[2]}{hookParser}', regex.MULTILINE)
+        for func in functions:
+            matches = hookParser.findall(func.content)
+            for match in matches:
+                func.content = func.content.replace(match[0], f'{var[1]} = {match[1]}')
+        matches = hookParser.findall(html)
+        for match in matches:
+            html = html.replace(match[0], f'{var[1]} = {match[1]}')
+    return html, functions, variables
+
+def parseComponent(component: Component, imports: list, functions: list, css: str) -> Component:
+    variables = useRegex("Variable", component.content, Variable)
+    html = "".join(useRegex("HTML", component.content, None))
+    if isinstance(component, ClassComponent):
+        html = regex.sub("this.", "", html)
+    functions = parseFunctions(component, functions, variables)
+    html, variables = parseProps(html, variables)
+    html = parseReactEvents(html)
+    html, functions, variables = parseReactHook(component.content, html, functions, variables)
     component = Component(component.name, html, css, imports, variables, functions)
     return component
 
@@ -91,7 +116,7 @@ def reactToSvelte(content: str, path: str) -> list:
     return components
 
 def parseCodebase(folderPath: str) -> list:
-    reactFiles = listAllFiles(folderPath)
+    reactFiles = listAllFiles(folderPath, ".jsx")
     components = []
 
     for reactFile in reactFiles:

@@ -1,9 +1,7 @@
 <script>
-    import axios from 'axios'
+  import axios from "axios";
 
-    export let name = undefined
-
-    
+  export let name = undefined;
 
 </script>
 

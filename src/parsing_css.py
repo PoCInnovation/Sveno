@@ -8,7 +8,6 @@ REGEXP = {
    "@ Css": regex.compile(r'@.*\{(?:[^.]+|(?0))\}'),
    "in @media Css": regex.compile(r'@media.*(\{(?:[^}{]+|(?1))*+\})'),
    "out @media Css": regex.compile(r'@media[^{]*')
-   
 }
 
 TEMPLATE_TAG_CSS = r'.{var}{end}'
