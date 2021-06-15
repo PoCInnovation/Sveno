@@ -9,6 +9,7 @@ from reactTypes import *
 REGEXP = {
     "Class Component": regex.compile(r'(class\s+([a-zA-Z0-9_-]+)\s+extends\s+(?:React\.)?Component\s*({((?>[^{}]+|(?3))*)}))', regex.MULTILINE),
     "Function": regex.compile(r'(?:function\s+(.*?)(\((?:[^)(]+|(?2))*+\))\s*(\{(?:[^}{]+|(?3))*+\})|(?:const|let)\s+?(.*?)\s*=\s*(\((?:[^)(]+|(?5))*+\))\s*=>\s*(\{(?:[^}{]+|(?3))*+\}))', regex.MULTILINE),
+    "FunctionClass": regex.compile(r'\s*(?:(.*?)(\((?:[^)(]+|(?2))*+\))\s*(\{(?:[^}{]+|(?3))*+\})|(.*?)\s*=\s*(\((?:[^)(]+|(?5))*+\))\s*=>\s*(\{(?:[^}{]+|(?3))*+\}))', regex.MULTILINE),
     "Import": regex.compile(r'import\s+.+\s+from\s+\'(?!react).+\''),
     "HTML": regex.compile(r'(<(?:[^)(]+|(?1))>)', regex.MULTILINE),
     "Variable": regex.compile(r'(const|let|var)\s+([a-zA-Z0-9_-]+)\s*=\s*([^;\s]+)'),
@@ -39,6 +40,11 @@ def useRegex(name: str, content: str, struct: type) -> list:
     return matches
 
 def parseFunctions(component: Component, functions: list, variables: list) -> List:
+    if isinstance(component, ClassComponent):
+        matches = useRegex("FunctionClass", component.content, Function)
+        for match in matches:
+            if match.name not in ["render", "constructor"]:
+                functions += [match]
     functions += useRegex("Function", component.content, Function)
     for func in functions:
         for var in variables:
