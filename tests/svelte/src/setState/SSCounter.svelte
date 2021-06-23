@@ -1,9 +1,13 @@
 <script>
-  export let number = undefined;
+    
+
+    export let number = undefined
+
+    
 
 </script>
 
-<button on:click={IncrementItem}>{number}</button>
+<button on:Click={IncrementItem}>{number}</button>
 
 <style>
 </style>
