@@ -14,7 +14,7 @@
             <button on:Click={handleClick}>
             Clique ici
             </button>
-            <button href="#" on:keypress={handleClick}>
+            <button href="#" on:KeyPress={handleClick}>
             Clique ici
             </button>
         </div>
