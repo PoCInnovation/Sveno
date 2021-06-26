@@ -6,17 +6,30 @@ from reactTypes import ClassComponent, Variable, matchTab
 from parsing_css import parseCss
 from reactTypes import *
 
+LIFECYCLE = {
+    "onMount": "import { onMount } from 'svelte'",
+    "beforeUpdate": "import { beforeUpdate } from 'svelte'",
+    "afterUpdate": "import { afterUpdate } from 'svelte'",
+    "onDestroy": "import { onDestroy } from 'svelte'"
+}
+
 REGEXP = {
     "Class Component": regex.compile(r'(class\s+(?<name>[a-zA-Z0-9_-]+)\s+extends\s+(?:React\.)?Component\s*(?<content>\{(?:[^}{]+|(?&content))*+\}))', regex.MULTILINE),
     "Method": regex.compile(r'(?:(?!constructor)(?<name>\b[[:alnum:]]+)(?<params>\((?:[^)(]+|(?&params))*+\))\s*(?<content>\{(?:[^}{]+|(?&content))*+\})|(?<arrow_name>\b[[:alnum:]]+)\s*=\s*(?<arrow_params>\((?:[^)(]+|(?&arrow_params))*+\))\s*=>\s*(?<arrow_content>\{(?:[^}{]+|(?&arrow_content))*+\}))', regex.MULTILINE),
-    "Function": regex.compile(r'(?:function\s+(?<name>.*?)(?<params>\((?:[^)(]+|(?&params))*+\))\s*(?<content>\{(?:[^}{]+|(?&content))*+\})|(?:const|let)\s+?(?<arrow_name>.*?)\s*=\s*(?<arrow_params>\((?:[^)(]+|(?&arrow_params))*+\))\s*=>\s*(?<arrow_content>\{(?:[^}{]+|(?&arrow_content))*+\}))', regex.MULTILINE),
+    "Function": regex.compile(r'(?:function\s+(?<name>.*?)\s*(?<params>\((?:[^)(]+|(?&params))*+\))\s*(?<content>\{(?:[^}{]+|(?&content))*+\})|(?:const|let)\s+?(?<arrow_name>.*?)\s*=\s*(?<arrow_params>\((?:[^)(]+|(?&arrow_params))*+\))\s*=>\s*(?<arrow_content>\{(?:[^}{]+|(?&arrow_content))*+\}))', regex.MULTILINE),
     "Import": regex.compile(r'import\s+.+\s+from\s+\'(?!react).+\''),
     "HTML": regex.compile(r'(<(?:[^)(]+|(?1))>)', regex.MULTILINE),
     "Variable": regex.compile(r'(const|let|var)\s+([a-zA-Z0-9_-]+)\s*=\s*([^;\s]+)'),
     "useState": regex.compile(r'(const|let|var)\s+\[\s*([a-zA-Z0-9_-]+)\s*,\s*([a-zA-Z0-9_-]+)\s*\]\s*=\s*(?:React\.)?useState\(\s*(.+)\s*\)', regex.MULTILINE),
     "useEffect": regex.compile(r'(?:React\.)?useEffect\((.+), (\[.\])\)[^;]', regex.MULTILINE),
     "props": regex.compile(r'props\.([A-Za-z0-9_-]+)'),
-    "onEvent": regex.compile(r'(\s)(on)(.*=)')
+    "onEvent": regex.compile(r'(\s)(on)(.*=)'),
+
+    # LifeCycle regexps
+    "onMount": regex.compile(r'componentDidMount\s*(?<params>\((?:[^)(]+|(?&params))*+\))\s*(?<content>\{(?:[^}{]+|(?&content))*+\})', regex.MULTILINE),
+    "beforeUpdate": regex.compile(r'getSnapshotBeforeUpdate\s*(?<params>\((?:[^)(]+|(?&params))*+\))\s*(?<content>\{(?:[^}{]+|(?&content))*+\})', regex.MULTILINE),
+    "afterUpdate": regex.compile(r'componentDidUpdate\s*(?<params>\((?:[^)(]+|(?&params))*+\))\s*(?<content>\{(?:[^}{]+|(?&content))*+\})', regex.MULTILINE),
+    "onDestroy": regex.compile(r'componentWillUnmount\s*(?<params>\((?:[^)(]+|(?&params))*+\))\s*(?<content>\{(?:[^}{]+|(?&content))*+\})', regex.MULTILINE)
 }
 
 def applyType(matches: list, struct: type) -> list:
@@ -78,6 +91,19 @@ def parseReactHook(content, html, functions, variables):
             html = html.replace(match[0], f'{var[1]} = {match[1]}')
     return html, functions, variables
 
+def parseLifeCycle(cComponents, imports):
+    lifeCycle = []
+    for component in cComponents:
+        lifeCycle = []
+        for key, value in LIFECYCLE.items():
+            tmp = useRegex(key, component.content, LifeCycle)
+            if len(tmp):
+                lifeCycle.append(tmp[0])
+                lifeCycle[len(lifeCycle) - 1].kind = key
+        component.lifeCycle = lifeCycle
+    return lifeCycle
+
+
 def parseComponent(component: Component, imports: list, functions: list, css: str) -> Component:
     variables = useRegex("Variable", component.content, Variable)
     html = "".join(useRegex("HTML", component.content, None))
@@ -86,8 +112,11 @@ def parseComponent(component: Component, imports: list, functions: list, css: st
     functions = parseFunctions(component, functions, variables)
     html, variables = parseProps(html, variables)
     html = parseReactEvents(html)
+    if len(component.lifeCycle):
+        for elem in component.lifeCycle:
+            imports.append(LIFECYCLE[elem.kind])
     html, functions, variables = parseReactHook(component.content, html, functions, variables)
-    component = Component(component.name, html, css, imports, variables, functions)
+    component = Component(component.name, html, css, imports, variables, functions, component.lifeCycle)
     return component
 
 def sortFunctionTypes(functions: list) -> Tuple[list, list]:
@@ -113,8 +142,8 @@ def reactToSvelte(content: str, path: str) -> list:
     functionnalComponents, normalFunctions = sortFunctionTypes(functions)
     classComponent = useRegex("Class Component", content, ClassComponent)
     imports = useRegex("Import", content, None)
+    lifeCycle = parseLifeCycle(classComponent, imports)
     css = parseCss(content, path)
-
     for fc in functionnalComponents:
         components.append(parseComponent(fc, imports, normalFunctions, css))
     for cc in classComponent:
