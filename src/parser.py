@@ -42,7 +42,7 @@ def useRegex(name: str, content: str, struct: type) -> list:
 
 def parseFunctions(component: Component, functions: list, variables: list) -> List:
     if isinstance(component, ClassComponent):
-        matches = useRegex("FunctionClass", component.content, Function)
+        matches = useRegex("Function", component.content, Function)
         for match in matches:
             if match.name not in ["render", "constructor"]:
                 functions += [match]
