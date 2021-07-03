@@ -15,7 +15,8 @@ REGEXP = {
     "Variable": regex.compile(r'(const|let|var)\s+([a-zA-Z0-9_-]+)\s*=\s*([^;\s]+)'),
     "useState": regex.compile(r'(const|let|var)\s+\[\s*([a-zA-Z0-9_-]+)\s*,\s*([a-zA-Z0-9_-]+)\s*\]\s*=\s*(?:React\.)?useState\(\s*(.+)\s*\)', regex.MULTILINE),
     "useEffect": regex.compile(r'(?:React\.)?useEffect\((.+), (\[.\])\)[^;]', regex.MULTILINE),
-    "props": regex.compile(r'props\.([A-Za-z0-9_-]+)')
+    "props": regex.compile(r'props\.([A-Za-z0-9_-]+)'),
+    "onEvent": regex.compile(r'(\s)(on)(.*=)')
 }
 
 def applyType(matches: list, struct: type) -> list:
@@ -60,7 +61,11 @@ def parseProps(html, variables):
     return html, variables
 
 def parseReactEvents(html):
-    html = regex.sub("onClick={", "on:click={", html)
+    find = REGEXP["onEvent"].findall(html)
+    for element in find:
+        begin = element[0] + element[1] + element[2]
+        end = element[0] + element[1] + ":" + element[2]
+        html = regex.sub(begin, end, html)
     return html
 
 def parseReactHook(content, html, functions, variables):
