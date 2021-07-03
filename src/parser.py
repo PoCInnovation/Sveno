@@ -16,7 +16,8 @@ REGEXP = {
     "useState": regex.compile(r'(const|let|var)\s+\[\s*([a-zA-Z0-9_-]+)\s*,\s*([a-zA-Z0-9_-]+)\s*\]\s*=\s*(?:React\.)?useState\(\s*(.+)\s*\)', regex.MULTILINE),
     "useEffect": regex.compile(r'(?:React\.)?useEffect\((.+), (\[.\])\)[^;]', regex.MULTILINE),
     "props": regex.compile(r'props\.([A-Za-z0-9_-]+)'),
-    "onEvent": regex.compile(r'(\s)(on)(.*=)')
+    "onEvent": regex.compile(r'(\s)(on)(.*=)'),
+    "ifCondition": regex.compile(r'\{(.*)&&.*(\<.*\>).*\}')
 }
 
 def applyType(matches: list, struct: type) -> list:
@@ -42,7 +43,7 @@ def useRegex(name: str, content: str, struct: type) -> list:
 
 def parseFunctions(component: Component, functions: list, variables: list) -> List:
     if isinstance(component, ClassComponent):
-        matches = useRegex("FunctionClass", component.content, Function)
+        matches = useRegex("Function", component.content, Function)
         for match in matches:
             if match.name not in ["render", "constructor"]:
                 functions += [match]
@@ -68,6 +69,14 @@ def parseReactEvents(html):
         html = regex.sub(begin, end, html)
     return html
 
+def ParseCondition(html):
+    find = REGEXP["ifCondition"].findall(html)
+    if (find):
+        result = "{#if"
+        print(find[0][0])
+        
+    
+
 def parseReactHook(content, html, functions, variables):
     hookParser = r'\s*\((.*)\))'
     state = useRegex("useState", content, None)
@@ -92,6 +101,7 @@ def parseComponent(component: Component, imports: list, functions: list, css: st
     html, variables = parseProps(html, variables)
     html = parseReactEvents(html)
     html, functions, variables = parseReactHook(component.content, html, functions, variables)
+    ParseCondition(html)
     component = Component(component.name, html, css, imports, variables, functions)
     return component
 
