@@ -1,5 +1,6 @@
 <script>
-  import logo from "./logo.svg";
+  import logo from "../logo.png";
+  import Counter from "../useState/USCounter.svelte"
 
 </script>
 
@@ -17,6 +18,7 @@
     >
       Learn React
     </a>
+    <Counter />
   </header>
 </div>
 
