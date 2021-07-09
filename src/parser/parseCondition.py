@@ -1,12 +1,11 @@
 import regex
 from reactTypes import *
-from parserReact import useRegex
 
 REGEXP = {
     "ifCondition": regex.compile(r'(\{(.*)&&.*(\<.*\>).*\})'),
 }
 
-def ParseCondition(html):
+def parseCondition(html):
     find = REGEXP["ifCondition"].findall(html)
 
     if (find):

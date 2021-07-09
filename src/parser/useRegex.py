@@ -1,8 +1,6 @@
 import regex
 from reactTypes import *
-from parserReact import useRegex
 import numpy as np
-from typing import Tuple
 
 REGEXP = {
     "Class Component": regex.compile(r'(class\s+(?<name>[a-zA-Z0-9_-]+)\s+extends\s+(?:React\.)?Component\s*(?<content>\{(?:[^}{]+|(?&content))*+\}))', regex.MULTILINE),
@@ -18,6 +16,14 @@ REGEXP = {
     "ifCondition": regex.compile(r'(\{(.*)&&.*(\<.*\>).*\})'),
     "loop": regex.compile(r'\{.*map.*=>.*\}')
 }
+
+def applyType(matches: list, struct: type) -> list:
+    typeArray = []
+
+    for match in matches:
+        elem = [np.asarray(match)[index] for index in matchTab[struct]]
+        typeArray.append(struct(*elem))
+    return typeArray
 
 def useRegex(name: str, content: str, struct: type) -> list:
     matches = []

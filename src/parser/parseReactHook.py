@@ -1,6 +1,6 @@
 import regex
 from reactTypes import *
-from parserReact import useRegex
+from parser.useRegex import useRegex
 
 def parseReactHook(content, html, functions, variables):
     hookParser = r'\s*\((.*)\))'

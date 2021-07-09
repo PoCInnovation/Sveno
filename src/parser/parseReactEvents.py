@@ -1,6 +1,5 @@
 import regex
 from reactTypes import *
-from parserReact import useRegex
 
 REGEXP = {
     "onEvent": regex.compile(r'(\s)(on)(.*=)')

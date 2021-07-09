@@ -1,7 +1,6 @@
 import regex
 from reactTypes import *
-from parserReact import useRegex
-import numpy as np
+from parser.useRegex import useRegex, applyType
 from typing import Tuple
 
 REGEXP = {

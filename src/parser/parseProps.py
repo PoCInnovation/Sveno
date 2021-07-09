@@ -1,6 +1,6 @@
 import regex
 from reactTypes import *
-from parserReact import useRegex
+from parser.useRegex import useRegex
 
 def parseProps(html, variables):
     props = useRegex("props", html, None)

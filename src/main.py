@@ -1,5 +1,5 @@
 import sys
-from parser import parseCodebase
+from parseReact import parseCodebase
 from generator import generateSvelteCodebase
 
 def usage(binary: str) -> None:
