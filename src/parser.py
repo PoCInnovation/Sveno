@@ -17,7 +17,7 @@ REGEXP = {
     "useEffect": regex.compile(r'(?:React\.)?useEffect\((.+), (\[.\])\)[^;]', regex.MULTILINE),
     "props": regex.compile(r'props\.([A-Za-z0-9_-]+)'),
     "onEvent": regex.compile(r'(\s)(on)(.*=)'),
-    "ifCondition": regex.compile(r'\{(.*)&&.*(\<.*\>).*\}')
+    "ifCondition": regex.compile(r'(\{(.*)&&.*(\<.*\>).*\})')
 }
 
 def applyType(matches: list, struct: type) -> list:
@@ -71,9 +71,11 @@ def parseReactEvents(html):
 
 def ParseCondition(html):
     find = REGEXP["ifCondition"].findall(html)
+
     if (find):
-        result = "{#if"
-        print(find[0][0])
+        result = "{#if " + find[0][1] + "}\n" + find[0][2] + "\n{/if}"
+        html = regex.sub(REGEXP["ifCondition"], result, html)
+    return html
         
     
 
@@ -101,7 +103,7 @@ def parseComponent(component: Component, imports: list, functions: list, css: st
     html, variables = parseProps(html, variables)
     html = parseReactEvents(html)
     html, functions, variables = parseReactHook(component.content, html, functions, variables)
-    ParseCondition(html)
+    html = ParseCondition(html)
     component = Component(component.name, html, css, imports, variables, functions)
     return component
 
