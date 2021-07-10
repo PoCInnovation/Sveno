@@ -1,4 +1,5 @@
 from dataclasses import dataclass, field
+from os import O_NDELAY
 from typing import List
 
 from numpy.core.records import array
@@ -11,6 +12,23 @@ class LifeCycle:
     kind: str = None
     def toStr(self):
         return TEMPLATE_LIFECYCLE.format(kind=self.kind, args=self.args, content=self.content)
+
+@dataclass
+class UseEffect:
+    content: str
+    dependencies: str
+    onDestroy: str = None
+    onMount: str = None
+    afterUpdate: str = None
+    def toLifeCycle(self):
+        lifeCycle = []
+        if (self.onDestroy != None):
+            lifeCycle.append(LifeCycle('()', self.onDestroy, 'onDestroy'))
+        if (self.onMount != None):
+            lifeCycle.append(LifeCycle('()', self.onMount, 'onMount'))
+        if (self.afterUpdate != None):
+            lifeCycle.append(LifeCycle('()', self.afterUpdate, 'afterUpdate'))
+        return lifeCycle
 
 @dataclass
 class FunctionnalComponent:
@@ -77,5 +95,6 @@ matchTab = {
     Variable: [0, 1, 2],
     Function: [0, 1, 2],
     NormalFunction: [0, 1, 2, 3],
-    LifeCycle: [0, 1]
+    LifeCycle: [0, 1],
+    UseEffect: [0, 1]
 }

@@ -1,11 +1,11 @@
 from utils import listAllFiles
 import regex
 from reactTypes import *
-from parser.parseCSS import parseCss
-from parser.parseFunction import sortFunctionTypes
+from parser.css import parseCss
+from parser.functions import sortFunctionTypes
 from parser.useRegex import useRegex
-from parser.parseComponent import parseComponent
-from parser.parseLifeCycle import parseLifeCycle
+from parser.components import parseComponent
+from parser.lifeCycle import parseLifeCycle
 
 
 def reactToSvelte(content: str, path: str) -> list:
@@ -13,14 +13,14 @@ def reactToSvelte(content: str, path: str) -> list:
     components = []
     functions = useRegex("Function", content, Function)
     functionnalComponents, normalFunctions = sortFunctionTypes(functions)
-    classComponent = useRegex("Class Component", content, ClassComponent)
+    classComponents = useRegex("Class Component", content, ClassComponent)
     imports = useRegex("Import", content, None)
     css = parseCss(content, path)
-    parseLifeCycle(classComponent, imports)
+    parseLifeCycle(classComponents, functionnalComponents, imports)
 
     for fc in functionnalComponents:
         components.append(parseComponent(fc, imports, normalFunctions, css))
-    for cc in classComponent:
+    for cc in classComponents:
         components.append(parseComponent(cc, imports, normalFunctions, css))
     return components
 

@@ -1,12 +1,12 @@
 import regex
 from reactTypes import *
 from parser.useRegex import useRegex
-from parser.parseReactEvents import parseReactEvents
-from parser.parseFunction import parseFunctions
-from parser.parseProps import parseProps
-from parser.parseReactHook import parseReactHook
-from parser.parseCondition import parseCondition
-from parser.parseLifeCycle import LIFECYCLE_IMPORTS
+from parser.reactEvents import parseReactEvents
+from parser.functions import parseFunctions
+from parser.props import parseProps
+from parser.reactHooks import parseReactHook
+from parser.conditions import parseCondition
+from svelteImports import addSvelteImports
 
 def parseComponent(component: Component, imports: list, functions: list, css: str) -> Component:
     variables = useRegex("Variable", component.content, Variable)
@@ -17,8 +17,7 @@ def parseComponent(component: Component, imports: list, functions: list, css: st
     html, variables = parseProps(html, variables)
     html = parseReactEvents(html)
     if len(component.lifeCycle):
-        for elem in component.lifeCycle:
-            imports.append(LIFECYCLE_IMPORTS[elem.kind])
+        imports.append(addSvelteImports(component))
     html, functions, variables = parseReactHook(component.content, html, functions, variables)
     html = parseCondition(html)
     component = Component(component.name, html, css, imports, variables, functions, component.lifeCycle)
