@@ -6,13 +6,6 @@ from reactTypes import ClassComponent, Variable, matchTab
 from parsing_css import parseCss
 from reactTypes import *
 
-LIFECYCLE = {
-    "onMount": "import { onMount } from 'svelte'",
-    "beforeUpdate": "import { beforeUpdate } from 'svelte'",
-    "afterUpdate": "import { afterUpdate } from 'svelte'",
-    "onDestroy": "import { onDestroy } from 'svelte'"
-}
-
 REGEXP = {
     "Class Component": regex.compile(r'(class\s+(?<name>[a-zA-Z0-9_-]+)\s+extends\s+(?:React\.)?Component\s*(?<content>\{(?:[^}{]+|(?&content))*+\}))', regex.MULTILINE),
     "Method": regex.compile(r'(?:(?!constructor)(?<name>\b[[:alnum:]]+)(?<params>\((?:[^)(]+|(?&params))*+\))\s*(?<content>\{(?:[^}{]+|(?&content))*+\})|(?<arrow_name>\b[[:alnum:]]+)\s*=\s*(?<arrow_params>\((?:[^)(]+|(?&arrow_params))*+\))\s*=>\s*(?<arrow_content>\{(?:[^}{]+|(?&arrow_content))*+\}))', regex.MULTILINE),

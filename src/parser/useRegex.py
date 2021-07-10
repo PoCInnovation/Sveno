@@ -14,7 +14,13 @@ REGEXP = {
     "props": regex.compile(r'props\.([A-Za-z0-9_-]+)'),
     "onEvent": regex.compile(r'(\s)(on)(.*=)'),
     "ifCondition": regex.compile(r'(\{(.*)&&.*(\<.*\>).*\})'),
-    "loop": regex.compile(r'\{.*map.*=>.*\}')
+    "loop": regex.compile(r'\{.*map.*=>.*\}'),
+
+        # LifeCycle regexps
+    "onMount": regex.compile(r'componentDidMount\s*(?<params>\((?:[^)(]+|(?&params))*+\))\s*(?<content>\{(?:[^}{]+|(?&content))*+\})', regex.MULTILINE),
+    "beforeUpdate": regex.compile(r'getSnapshotBeforeUpdate\s*(?<params>\((?:[^)(]+|(?&params))*+\))\s*(?<content>\{(?:[^}{]+|(?&content))*+\})', regex.MULTILINE),
+    "afterUpdate": regex.compile(r'componentDidUpdate\s*(?<params>\((?:[^)(]+|(?&params))*+\))\s*(?<content>\{(?:[^}{]+|(?&content))*+\})', regex.MULTILINE),
+    "onDestroy": regex.compile(r'componentWillUnmount\s*(?<params>\((?:[^)(]+|(?&params))*+\))\s*(?<content>\{(?:[^}{]+|(?&content))*+\})', regex.MULTILINE)
 }
 
 def applyType(matches: list, struct: type) -> list:

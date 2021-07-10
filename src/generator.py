@@ -29,4 +29,4 @@ def generateSvelteCodebase(newFolder: str, newFiles: list) -> None:
         createFolder(fullPath)
         for component in newFile[1]:
             createFile(fullPath + '/' + component.name + ".svelte", component.toStr())
-    cleanUp(newFolder)
+    # cleanUp(newFolder)
