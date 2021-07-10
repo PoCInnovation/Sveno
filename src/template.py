@@ -18,9 +18,5 @@ TEMPLATE_SVELTE = """<script>
 TEMPLATE_VARIABLE = "{qualifier} {name} = {value}"
 
 TEMPLATE_FUNCTION = "{qualifier} {name} = {args} => {content}"
-<<<<<<< HEAD
 
 TEMPLATE_LIFECYCLE = "{kind}({args} => {content})"
-=======
-    
->>>>>>> dev
