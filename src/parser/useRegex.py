@@ -20,7 +20,8 @@ REGEXP = {
     "onMount": regex.compile(r'componentDidMount\s*(?<params>\((?:[^)(]+|(?&params))*+\))\s*(?<content>\{(?:[^}{]+|(?&content))*+\})', regex.MULTILINE),
     "beforeUpdate": regex.compile(r'getSnapshotBeforeUpdate\s*(?<params>\((?:[^)(]+|(?&params))*+\))\s*(?<content>\{(?:[^}{]+|(?&content))*+\})', regex.MULTILINE),
     "afterUpdate": regex.compile(r'componentDidUpdate\s*(?<params>\((?:[^)(]+|(?&params))*+\))\s*(?<content>\{(?:[^}{]+|(?&content))*+\})', regex.MULTILINE),
-    "onDestroy": regex.compile(r'componentWillUnmount\s*(?<params>\((?:[^)(]+|(?&params))*+\))\s*(?<content>\{(?:[^}{]+|(?&content))*+\})', regex.MULTILINE)
+    "onDestroy": regex.compile(r'componentWillUnmount\s*(?<params>\((?:[^)(]+|(?&params))*+\))\s*(?<content>\{(?:[^}{]+|(?&content))*+\})', regex.MULTILINE),
+    "useEffect": regex.compile(r'\buseEffect\s*\(\s*\(\s*\)\s*=>\s*(?<content>\{(?:[^}{]*|(?&content))*\})\s*,?\s*(?<dependencies>\[(?:[^\]\[]*|(?&dependencies))*\])*\s*\)', regex.MULTILINE)
 }
 
 def applyType(matches: list, struct: type) -> list:

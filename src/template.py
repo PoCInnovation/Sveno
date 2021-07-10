@@ -19,4 +19,4 @@ TEMPLATE_VARIABLE = "{qualifier} {name} = {value}"
 
 TEMPLATE_FUNCTION = "{qualifier} {name} = {args} => {content}"
 
-TEMPLATE_LIFECYCLE = "{kind}({args} => {content})"
+TEMPLATE_LIFECYCLE = "{kind}(() => {content})"
