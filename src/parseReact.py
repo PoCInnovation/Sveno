@@ -9,6 +9,13 @@ from parser.lifeCycle import parseLifeCycle
 
 
 def reactToSvelte(content: str, path: str) -> list:
+    """reactToSvelte(): tranform the content of a react file into a
+    list of svelte styled components.
+
+    @content: the content of a react file.
+    @path: the relative path of the file, without the extension. Used for
+    creating the correct file dependencies in the transpiled codebase
+    """
     content = regex.sub("className", "class", content)
     components = []
     functions = useRegex("Function", content, Function)
@@ -25,6 +32,12 @@ def reactToSvelte(content: str, path: str) -> list:
     return components
 
 def parseCodebase(folderPath: str) -> list:
+    """parseCodebase(): goes through the entire react source directory
+    and returns a list of parsed svelte components to write.
+
+    @folderPath: path to the react source folder. React files' extensions
+    should be '.jsx'
+    """
     reactFiles = listAllFiles(folderPath, ".jsx")
     components = []
 

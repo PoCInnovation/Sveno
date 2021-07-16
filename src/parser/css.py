@@ -51,7 +51,7 @@ def parseCss(content, path):
       css = openCssFile(result[0], path)
       css = search_class(content, css)
       return (css)
-   else :
+   else:
       return (css)
 
 

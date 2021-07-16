@@ -5,7 +5,12 @@ REGEXP = {
     "ifCondition": regex.compile(r'(\{(.*)&&.*(\<.*\>).*\})'),
 }
 
-def parseCondition(html):
+def parseCondition(html: str) -> str:
+    """parseCondition(): tranform react condition syntax into svelte
+    styled condition block
+
+    @html: single string of html content."""
+
     find = REGEXP["ifCondition"].findall(html)
 
     if (find):

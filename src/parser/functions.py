@@ -19,6 +19,13 @@ REGEXP = {
 }
 
 def sortFunctionTypes(functions: list) -> Tuple[list, list]:
+    """
+    sortFunctionTypes(): separate classic functions from functionnal components.
+    returns a tuple of 2 lists: functionnalComponents[], normalFunctions[]
+
+    @functions: a list of Functions that is not sorted
+    """
+
     functionnalComponents = []
     normalFunctions = []
     for fc in functions:

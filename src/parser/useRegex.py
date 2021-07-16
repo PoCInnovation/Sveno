@@ -25,6 +25,9 @@ REGEXP = {
 }
 
 def applyType(matches: list, struct: type) -> list:
+    """Transform a list of unformated regex results into a typed list
+    @matches: list of regex matches
+    @struct: the structure type to apply to matches, found in reactTypes.py"""
     typeArray = []
 
     for match in matches:
@@ -33,6 +36,11 @@ def applyType(matches: list, struct: type) -> list:
     return typeArray
 
 def useRegex(name: str, content: str, struct: type) -> list:
+    """useRegex(): Use regex 'name' and format it into a dataclass 'struct'
+
+    @name: a key from the REGEX dictionnary defined in useRegex.py
+    @content: the string on which the regex will be applied
+    @struct: the dataclass format which will be applied to the results by applyType(), defined in useRegex.py"""
     matches = []
 
     match = REGEXP[name].findall(content)
