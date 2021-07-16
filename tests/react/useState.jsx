@@ -1,6 +1,6 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 
-function Counter() {
+function USCounter() {
 
     const [count, setCount] = useState(0);
 
@@ -8,9 +8,15 @@ function Counter() {
         setCount(count + 1);
     }
 
-        return (
-            <button onClick={IncrementItem}>Count is {count}</button>
-        )
+    useEffect(()=> {
+        console.log(`count is now ${count}`)
+
+        return ()=> {"Element destroyed"}
+    }, [count])
+
+    return (
+        <button onClick={IncrementItem}>Count is {count}</button>
+    )
 }
 
 export default Counter;

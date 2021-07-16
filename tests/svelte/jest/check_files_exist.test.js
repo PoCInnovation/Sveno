@@ -1,10 +1,11 @@
 const fs = require('fs')
 
 const files = [
-    "src/class_component.svelte",
-    "src/functionnal_component.svelte",
-    "src/setState.svelte",
-    "src/useState.svelte"
+    "src/class_component/CCWelcome.svelte",
+    "src/class_component/CCWelcome2.svelte",
+    "src/functionnal_component/FCTest.svelte",
+    "src/setState/SSCounter.svelte",
+    "src/useState/USCounter.svelte"
 ]
 
 describe("Files", () => {
