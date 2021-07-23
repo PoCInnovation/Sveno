@@ -1,15 +1,8 @@
-<script>
-    
-
-    export let name = undefined
-
-    function test() {
-    let i = 0
+{
+    useEffect(() => {
+        console.log("Print this on mount");
+    }, [])
+    return (
+        <h1>Salut, {props.name}</h1>
+    );
 }
-
-</script>
-
-<h1>Salut, {name}</h1>
-
-<style>
-</style>

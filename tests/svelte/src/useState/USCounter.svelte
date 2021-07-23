@@ -1,15 +1,18 @@
-<script>
-    
+{
 
-    let count = 0
+    const [count, setCount] = useState(0);
 
     const IncrementItem = () => {
-        count = count + 1;
+        setCount(count + 1);
     }
 
-</script>
+    useEffect(()=> {
+        console.log(`count is now ${count}`)
 
-<button on:Click={IncrementItem}>Count is {count}</button>
+        return ()=> {"Element destroyed"}
+    }, [count])
 
-<style>
-</style>
+    return (
+        <button onClick={IncrementItem}>Count is {count}</button>
+    )
+}

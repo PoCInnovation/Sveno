@@ -1,13 +1,5 @@
-<script>
-    import axios from 'axios'
-
-    export let name = undefined
-
-    
-
-</script>
-
-<h1 class="App">Bonjour, {name}</h1>
-
-<style>
-</style>
+{
+  render() {
+    return <h1 class="App">Bonjour, {this.props.name}</h1>;
+  }
+}
