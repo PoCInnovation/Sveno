@@ -21,13 +21,14 @@ def parseComponent(component: Component, imports: list, functions: list, css: st
     """
     variables = useRegex("Variable", component.content, Variable)
     html = "".join(useRegex("HTML", component.content, None))
+    fileImports = imports.copy()
     if isinstance(component, ClassComponent):
         html = regex.sub("this.", "", html)
     functions = parseFunctions(component, functions, variables)
     html, variables = parseProps(html, variables)
     html = parseReactEvents(html)
     if len(component.lifeCycle):
-        imports.append(addSvelteImports(component))
+        fileImports.append(addSvelteImports(component))
     html, functions, variables = parseReactHook(component.content, html, functions, variables)
     html = parseCondition(html)
-    return Component(component.name, html, css, imports, variables, functions, component.lifeCycle)
+    return Component(component.name, html, css, fileImports, variables, functions, component.lifeCycle)
