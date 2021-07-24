@@ -5,7 +5,6 @@ from parser.useRegex import useRegex
 def addVariable(name: str, variables: Variable):
     for var in variables:
         if name == var.name:
-            print(var)
             var.qualifier = "export let"
             return
     variables.append(Variable("export let", name, "undefined"))

@@ -24,9 +24,8 @@ def parseComponent(component: Component, imports: list, functions: list, css: st
     html = "".join(useRegex("HTML", component.content, None))
     fileImports = imports.copy()
     if isinstance(component, ClassComponent):
-        html = regex.sub("this.", "", html)
+        html = regex.sub("this\.", "", html)
         initVars(component, variables)
-    print("VARS", variables)
     functions = parseFunctions(component, functions, variables)
     html, variables = parseProps(html, variables)
     html = parseReactEvents(html)

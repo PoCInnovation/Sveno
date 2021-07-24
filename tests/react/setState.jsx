@@ -13,8 +13,14 @@ class SSCounter extends React.Component {
         this.setState({clicks: this.state.count + 1})
     }
 
+    notExportedVar = 5;
+
     render() {
-        return <button onClick={this.IncrementItem}>Count is {this.props.count}</button>;
+        return (
+        <div>
+          <button onClick={this.IncrementItem}>Count is {this.props.count}</button>
+          <p>this var should be undefined but exported {this.props.undefinedVar}</p>
+        </div>);
     }
 }
 
