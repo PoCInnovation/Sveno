@@ -42,7 +42,8 @@ def sortFunctionTypes(functions: list) -> Tuple[list, list]:
 
 def parseFunctions(component: Component, functions: list, variables: list) -> List:
     if isinstance(component, ClassComponent):
-        matches = useRegex("Function", component.content, Function)
+        matches = useRegex("Method", component.content, Function)
+        print(matches)
         for match in matches:
             if match.name not in ["render", "constructor"]:
                 functions += [match]
