@@ -6,6 +6,7 @@ from parser.functions import parseFunctions
 from parser.props import parseProps
 from parser.reactHooks import parseReactHook
 from parser.conditions import parseCondition
+from parser.initVars import initVars
 from svelteImports import addSvelteImports
 
 def parseComponent(component: Component, imports: list, functions: list, css: str) -> Component:
@@ -24,6 +25,8 @@ def parseComponent(component: Component, imports: list, functions: list, css: st
     fileImports = imports.copy()
     if isinstance(component, ClassComponent):
         html = regex.sub("this.", "", html)
+        initVars(component, variables)
+    print("VARS", variables)
     functions = parseFunctions(component, functions, variables)
     html, variables = parseProps(html, variables)
     html = parseReactEvents(html)
