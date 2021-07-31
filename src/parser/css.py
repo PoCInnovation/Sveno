@@ -18,8 +18,12 @@ def search_spe_class(css, final_css):
    out_media_css = REGEXP['out @media Css'].findall(css)
 
    if final_css:
-      final_css = final_css + '\n' + spe_css[0]
-      final_css = final_css + '\n' + (out_media_css[0] + in_media_css[0])
+      if len(spe_css):
+         final_css = final_css + '\n' + spe_css[0]
+      if len(out_media_css):
+         final_css = final_css + '\n' + (out_media_css[0])
+      if len(in_media_css):
+         final_css = final_css + in_media_css[0]
    return (final_css)
 
 def search_class(content, css):
@@ -32,7 +36,8 @@ def search_class(content, css):
          pattern = TEMPLATE_TAG_CSS.format(var=name[1], end=end)
          re_pattern = regex.compile(pattern)
          pattern = re_pattern.findall(css)
-         final_css = final_css + '\n' + pattern[0]
+         if len(pattern):
+            final_css = final_css + '\n' + pattern[0]
    final_css = search_spe_class(css, final_css)
    return (final_css)
 
