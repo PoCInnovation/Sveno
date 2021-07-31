@@ -25,13 +25,15 @@ def generateSvelteCodebase(newFolder: str, newFiles: list) -> None:
     fullPath = ""
 
     createFolder(newFolder)
+    print("Writing new files")
     for newFile in newFiles:
         fullPath = newFolder + '/' + newFile[0]
         if len(newFile[1]) == 1 and type(newFile[1][0]) == UtilsFile:
             createFile(fullPath + ".js", newFile[1][0].toStr())
-            print(fullPath)
+            print(fullPath+ ".js")
         else:
             createFolder(fullPath)
             for component in newFile[1]:
+                print(fullPath + '/' + component.name + ".svelte")
                 createFile(fullPath + '/' + component.name + ".svelte", component.toStr())
     # cleanUp(newFolder)
