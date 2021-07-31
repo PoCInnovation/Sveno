@@ -11,8 +11,7 @@ from parser.lifeCycle import parseLifeCycle
 def reactToSvelte(content: str, path: str) -> list:
     """reactToSvelte(): tranform the content of a react file into a
     list of svelte styled components.
-
-    @content: the content of a react file.
+b    @content: the content of a react file.
     @path: the relative path of the file, without the extension. Used for
     creating the correct file dependencies in the transpiled codebase
     """
@@ -29,6 +28,8 @@ def reactToSvelte(content: str, path: str) -> list:
         components.append(parseComponent(fc, imports, normalFunctions, css))
     for cc in classComponents:
         components.append(parseComponent(cc, imports, normalFunctions, css))
+    if len(functionnalComponents) == 0 and len(classComponents) == 0:
+        components.append(UtilsFile(content))
     return components
 
 def parseCodebase(folderPath: str) -> list:
@@ -38,13 +39,13 @@ def parseCodebase(folderPath: str) -> list:
     @folderPath: path to the react source folder. React files' extensions
     should be '.jsx'
     """
-    reactFiles = listAllFiles(folderPath, ".jsx")
+    reactFiles = listAllFiles(folderPath, [".jsx", ".js"])
     components = []
 
     for reactFile in reactFiles:
         with open(reactFile, 'r') as file:
             components.append((
-                reactFile.replace(".jsx", "").rsplit('/', 1)[::-1][0],
+                reactFile.replace(".jsx", "").replace(".js", "").rsplit('/', 1)[::-1][0],
                 reactToSvelte(file.read(), reactFile)
             ))
     return components

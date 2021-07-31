@@ -14,6 +14,12 @@ class LifeCycle:
         return TEMPLATE_LIFECYCLE.format(kind=self.kind, args=self.args, content=self.content)
 
 @dataclass
+class UtilsFile:
+    content: str
+    def toStr(self):
+        return self.content
+
+@dataclass
 class UseEffect:
     content: str
     dependencies: str

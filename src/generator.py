@@ -1,5 +1,6 @@
 from os import mkdir, system
 import errno
+from reactTypes import UtilsFile
 
 def createFolder(filepath: str) -> None:
     try:
@@ -26,7 +27,11 @@ def generateSvelteCodebase(newFolder: str, newFiles: list) -> None:
     createFolder(newFolder)
     for newFile in newFiles:
         fullPath = newFolder + '/' + newFile[0]
-        createFolder(fullPath)
-        for component in newFile[1]:
-            createFile(fullPath + '/' + component.name + ".svelte", component.toStr())
+        if len(newFile[1]) == 1 and type(newFile[1][0]) == UtilsFile:
+            createFile(fullPath + ".js", newFile[1][0].toStr())
+            print(fullPath)
+        else:
+            createFolder(fullPath)
+            for component in newFile[1]:
+                createFile(fullPath + '/' + component.name + ".svelte", component.toStr())
     # cleanUp(newFolder)
