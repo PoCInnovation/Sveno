@@ -11,7 +11,7 @@ from parser.lifeCycle import parseLifeCycle
 def reactToSvelte(content: str, path: str) -> list:
     """reactToSvelte(): tranform the content of a react file into a
     list of svelte styled components.
-b    @content: the content of a react file.
+    @content: the content of a react file.
     @path: the relative path of the file, without the extension. Used for
     creating the correct file dependencies in the transpiled codebase
     """
