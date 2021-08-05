@@ -1,29 +1,31 @@
 # Sveno
-### Description
+<p align="center"><a target="_blank"><img src="https://img.shields.io/badge/version-v0.0.1-blue?style=for-the-badge&logo=none" alt="release version" /></a>&nbsp;<a  target="_blank"><img src="https://img.shields.io/badge/Python-3.8+-00ADD8?style=for-the-badge&logo=python" alt="go version" /></a>&nbsp;</a>&nbsp;<img src="https://img.shields.io/badge/license-MIT-red?style=for-the-badge&logo=none" alt="license" /></p>
+
+## Description
 Sveno is a component transpiler that transform React components to Svelte components. It only works on simple small non-library components so far, but more updates are coming.
 
 Sveno aims to become a powerfull tool able to transpile complete projects, and to help developpers discover the advantages of using Svelte.
 
 ![React to Svelte](react-to-svelte.png)
 
-### Why use Svelte
+## Why use Svelte
 While React is a library that adds extra weight to your code base and uses a virtual DOM, Svelte compiles it's files to ideal javascript, thus reducing the actual weight. As a result, Svelte is significantly faster than any framework or library using virtual DOMs.
 
 [Learn more here](https://svelte.dev/blog/virtual-dom-is-pure-overhead)
 
-### Setup
+## Setup
 
 You'll need [Python3](https://www.python.org/downloads/) and [pip3](https://pip.pypa.io/en/stable/getting-started/) installed.
 Install the requirements with `pip3 install -r ./src/requirements.txt`<br/>
 Congratz \\(^o^)/ ! You're ready to go!
 
-### Usage
+## Usage
 
 The program takes 2 arguments: the react source folder and a svelte destination folder
 
 `python3  ./src/main.py react_source_folder svelte_destination_folder`
 
-### How does it work
+## How does it work
 
 1. The program looks through each file, starting from the source root folder, that has a `.js` or a `.jsx` extension. Style files with `.css`  extension are also taken into account and can be integrated into the correct svelte component.
 2. Using a set of regex (regular expressions), key elements are gathered and stored into dataclasses. [Try some regex here.](https://regex101.com/)
