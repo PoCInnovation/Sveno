@@ -20,6 +20,7 @@ Sveno aims to become a powerful tool  able to transpile complete projects, and t
 - [Contributors](#contributors)
 
 <div id="id-why-svelte"/>
+
 ## Why Svelte
 While React is a library that adds extra weight to your code base and uses a virtual DOM, Svelte compiles it's files to ideal javascript, thus reducing the actual weight ⚖️. As a result, Svelte is significantly faster 🏃⚡ than any framework or library using virtual DOMs when it comes to downloading webpages into a browser.
 
