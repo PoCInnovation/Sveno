@@ -67,6 +67,7 @@ As of today, the following elements can be transpiled:
 * Routing
 
 <div id="id-contributors"/>
+
 ## Contributors
 - [Allan Deleve](https://github.com/Gfaim)
 - [Amoz Pay](https://github.com/amozpay)
