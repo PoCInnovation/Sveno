@@ -5,9 +5,7 @@ const FCTest = (props) => {
     useEffect(() => {
         console.log("Print this on mount");
     }, [])
-    return (
-        <h1>Salut, {props.name}</h1>
-    );
+    return <h1>Salut, {props.name}</h1>;
 }
 
 

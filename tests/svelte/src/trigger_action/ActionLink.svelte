@@ -1,17 +1,27 @@
-{
-    function handleClick(e) {
+<script>
+    
+
+    
+
+    
+
+    const handleClick = (e) => {
       e.preventDefault();
       console.log('Le lien a été cliqué.');
     }
-  
-    return (
+
+</script>
+
+
         <div>
-            <button onClick={handleClick}>
+            <button on:Click={handleClick}>
             Clique ici
             </button>
-            <button href="#" onKeyPress={handleClick}>
+            <button href=")#" on:KeyPress={handleClick}>
             Clique ici
             </button>
         </div>
-    );
-  }
+    
+
+<style>
+</style>

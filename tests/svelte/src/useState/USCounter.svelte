@@ -1,18 +1,24 @@
-{
+<script>
+    import { afterUpdate, onDestroy } from 'svelte'
 
-    const [count, setCount] = useState(0);
+    let count = 0
 
-    const IncrementItem = () => {
-        setCount(count + 1);
-    }
-
-    useEffect(()=> {
+    onDestroy(() => {"Element destroyed"})
+	afterUpdate(() => {
         console.log(`count is now ${count}`)
 
-        return ()=> {"Element destroyed"}
-    }, [count])
+        
+    })
 
-    return (
-        <button onClick={IncrementItem}>Count is {count}</button>
-    )
-}
+    const IncrementItem = () => {
+        count = count + 1;
+    }
+
+</script>
+
+
+        <button on:Click={IncrementItem}>Count is {count}</button>
+    
+
+<style>
+</style>

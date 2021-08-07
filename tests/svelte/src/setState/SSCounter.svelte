@@ -1,16 +1,15 @@
-{
-    constructor(props) {
-        super(props);
-        this.state = {
-          clicks: 0
-        };
-      }
+<script>
+    
 
-    IncrementItem = () => {
-        this.setState({clicks: this.state.clicks + 1})
-    }
+    export let number = undefined
 
-    render() {
-        return <button onClick={this.IncrementItem}>{this.props.number}</button>;
-    }
-}
+    
+
+    
+
+</script>
+
+ <button on:Click={IncrementItem}>{number}</button>
+
+<style>
+</style>
