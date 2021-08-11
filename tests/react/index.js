@@ -1,3 +1,5 @@
-import someRandomImport from 'RandomLib'
+import App from 'App'
 
-console.log('hey')
+reactDOM.render(<App/>, document.getElementById('root'))
+
+console.log('the element has been rendered')
