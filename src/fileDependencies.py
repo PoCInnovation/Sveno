@@ -28,14 +28,11 @@ def resolveAllImports(files: list):
 
 def resolveFileDependencies(files: list):
     resolvedFiles = []
-    print('\n\n')
     for index, file in enumerate(files):
-        # print(type(file.content))
         if type(file.content) == UtilsFile:
             file.isUtilsFile = True
             file.newName = file.oldName
             resolvedFiles.append(files[index])
-            # print('new UtilsFile' + file.newName)
         elif type(file.content) == Component:
             file.newName = file.oldName + '/' + file.content.name
         else:
@@ -45,11 +42,6 @@ def resolveFileDependencies(files: list):
             for index, component in enumerate(file.content):
                 prependImportsPath(component.imports)
                 newSvelteComponent = File(file.oldName, component, file.oldName + '/' + component.name)
-                print("Folder: " + newSvelteComponent.oldName + "\nfile: " + newSvelteComponent.newName)
                 resolvedFiles.append(newSvelteComponent)
     resolveAllImports(resolvedFiles)
-    for elem in resolvedFiles:
-        if not elem.isFolder:
-            print('new name:' + elem.newName)
-    print('\n\n\n')
     return resolvedFiles

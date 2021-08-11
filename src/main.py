@@ -1,7 +1,7 @@
 import sys
 from parseReact import parseCodebase
 from generator import generateSvelteCodebase
-from resolveImports import resolveFileDependencies
+from fileDependencies import resolveFileDependencies
 
 def usage(binary: str) -> None:
     print(
