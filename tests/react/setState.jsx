@@ -10,7 +10,7 @@ class SSCounter extends React.Component {
       }
 
     IncrementItem = () => {
-        this.setState({clicks: this.state.count + 1})
+        this.setState({count: this.state.count + 1})
     }
 
     notExportedVar = 5;

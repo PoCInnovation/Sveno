@@ -6,6 +6,7 @@ from parser.functions import sortFunctionTypes
 from parser.useRegex import useRegex
 from parser.components import parseComponent
 from parser.lifeCycle import parseLifeCycle
+from parser.imports import getImports
 
 
 def reactToSvelte(content: str, path: str) -> list:
@@ -20,7 +21,7 @@ def reactToSvelte(content: str, path: str) -> list:
     functions = useRegex("Function", content, Function)
     functionnalComponents, normalFunctions = sortFunctionTypes(functions)
     classComponents = useRegex("Class Component", content, ClassComponent)
-    imports = useRegex("Import", content, None)
+    imports = getImports(content)
     css = parseCss(content, path)
     parseLifeCycle(classComponents, functionnalComponents, imports)
 
@@ -29,7 +30,7 @@ def reactToSvelte(content: str, path: str) -> list:
     for cc in classComponents:
         components.append(parseComponent(cc, imports, normalFunctions, css))
     if len(functionnalComponents) == 0 and len(classComponents) == 0:
-        components.append(UtilsFile(content))
+        components = UtilsFile(content, imports)
     return components
 
 def parseCodebase(folderPath: str) -> list:
@@ -40,12 +41,12 @@ def parseCodebase(folderPath: str) -> list:
     should be '.jsx'
     """
     reactFiles = listAllFiles(folderPath, [".jsx", ".js"])
-    components = []
+    files = []
 
     for reactFile in reactFiles:
         with open(reactFile, 'r') as file:
-            components.append((
+            files.append(File(
                 reactFile.replace(".jsx", "").replace(".js", "").rsplit('/', 1)[::-1][0],
                 reactToSvelte(file.read(), reactFile)
             ))
-    return components
+    return files

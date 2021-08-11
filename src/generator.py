@@ -1,6 +1,7 @@
 from os import mkdir, system
 import errno
 from reactTypes import UtilsFile
+import regex
 
 def createFolder(filepath: str) -> None:
     try:
@@ -21,19 +22,21 @@ def createFile(filepath: str, content: str) -> None:
     except OSError:
         print('Couldn\'t write to file')
 
+
+
 def generateSvelteCodebase(newFolder: str, newFiles: list) -> None:
     fullPath = ""
 
     createFolder(newFolder)
     print("Writing new files")
     for newFile in newFiles:
-        fullPath = newFolder + '/' + newFile[0]
-        if len(newFile[1]) == 1 and type(newFile[1][0]) == UtilsFile:
-            createFile(fullPath + ".js", newFile[1][0].toStr())
-            print(fullPath+ ".js")
-        else:
+        fullPath = newFolder + '/' + newFile.newName
+        if newFile.isFolder:
             createFolder(fullPath)
-            for component in newFile[1]:
-                print(fullPath + '/' + component.name + ".svelte")
-                createFile(fullPath + '/' + component.name + ".svelte", component.toStr())
+        elif type(newFile.content) == UtilsFile:
+            createFile(fullPath + ".js", newFile.content.toStr())
+            print(fullPath + ".js")
+        else:
+            print(fullPath + ".svelte")
+            createFile(fullPath + ".svelte", newFile.content.toStr())
     # cleanUp(newFolder)
