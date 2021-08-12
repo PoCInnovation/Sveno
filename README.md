@@ -31,7 +31,8 @@ While React is a library that adds extra weight to your code base and uses a vir
 ## Setup
 
 You'll need [Python3](https://www.python.org/downloads/) 🐍 and [pip3](https://pip.pypa.io/en/stable/getting-started/) installed.
-Install the requirements with `pip3 install -r ./src/requirements.txt`<br/>
+You will also need [npm](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm/) installed.
+Install the requirements by launching the script `./install.sh`<br/>
 Congratz 🥳 ! You're ready to go!
 
 ## Usage

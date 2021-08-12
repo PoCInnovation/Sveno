@@ -20,7 +20,6 @@ def argumentsHandling(argv: list) -> None:
         sys.exit(84)
 
 def main(argv: list) -> None:
-    res = ""
     argumentsHandling(argv)
     res = parseCodebase(argv[1])
     res = resolveFileDependencies(res)
