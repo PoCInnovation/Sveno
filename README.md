@@ -10,12 +10,12 @@ Sveno aims to become a powerful tool  able to transpile complete projects, and t
 </div>
 
 ## Summary
-- [Summary](#summary)
 - [Why Svelte](#why-svelte)
 - [Setup](#setup)
 - [Usage](#usage)
 - [How it works](#how-it-works)
 - [Functionnalities](#functionnalities)
+- [Documentation](#documentation)
 - [Upcoming](#upcoming)
 - [Contributors](#contributors)
 
@@ -59,6 +59,14 @@ As of today, the following elements can be transpiled:
 * UseEffect (The functionnal component LifeCycle hook)
 * SetState, UseState, this.state - initialize and set variable values
 * Events (onClick, onMouseMove, etc)
+
+## Documentation
+* Install [Doxygen](https://www.doxygen.nl/download.html) 
+    - `sudo apt install doxygen`
+* To generate the documentation, just do
+    - `doxygen .doxygen`
+* You can now consult the documentation by running the html statically for example with chrome
+    - `google-chrome doc/html/index.html`
 
 ## Upcoming
 * ReactDOM.render() and entrypoint
