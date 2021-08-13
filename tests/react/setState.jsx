@@ -5,16 +5,22 @@ class SSCounter extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-          clicks: 0
+          count: 0
         };
       }
 
     IncrementItem = () => {
-        this.setState({clicks: this.state.clicks + 1})
+        this.setState({count: this.state.count + 1})
     }
 
+    notExportedVar = 5;
+
     render() {
-        return <button onClick={this.IncrementItem}>{this.props.number}</button>;
+        return (
+        <div>
+          <button onClick={this.IncrementItem}>Count is {this.props.count}</button>
+          <p>this var should be undefined but exported {this.props.undefinedVar}</p>
+        </div>);
     }
 }
 

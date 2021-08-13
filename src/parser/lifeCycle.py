@@ -10,6 +10,11 @@ REGEXP = {
 }
 
 def parseUseEffect(fComponents):
+    """parseUseEffect(): transform useEffects from functionnal components
+    into svelte lifecycle functions.
+
+    @fComponents: a list of FunctionnalComponents
+    """
     for component in fComponents:
         effect = useRegex("useEffect", component.content, UseEffect)
         if len(effect):
@@ -25,6 +30,14 @@ def parseUseEffect(fComponents):
             component.lifeCycle = effect[0].toLifeCycle()
 
 def parseLifeCycle(cComponents, fComponents, imports):
+    """parseLifeCycle(): transform useEffects from functionnal components
+    and class components lifecycle methods into svelte lifecycle functions.
+
+    @cComponents: a list of ClassComponents
+    @fComponents: a list of FunctionnalComponents
+    """
+
+    # parse class components here, functionnal components in a sub function
     lifeCycle = []
     for component in cComponents:
         lifeCycle = []

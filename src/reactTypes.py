@@ -3,6 +3,7 @@ from os import O_NDELAY
 from typing import List
 
 from numpy.core.records import array
+from regex.regex import findall
 from template import *
 
 @dataclass
@@ -12,6 +13,24 @@ class LifeCycle:
     kind: str = None
     def toStr(self):
         return TEMPLATE_LIFECYCLE.format(kind=self.kind, args=self.args, content=self.content)
+
+@dataclass
+class Imports:
+    imports: str
+    origin: str
+    fromFile: bool = False
+    def toStr(self):
+        return TEMPLATE_IMPORTS.format(imports=self.imports, origin=self.origin)
+
+@dataclass
+class UtilsFile:
+    content: str
+    imports: List[Imports]
+    def toStr(self):
+        imports = []
+        for elem in self.imports:
+            imports.append(elem.toStr())
+        return "\n".join(imports) + '\n\n' + self.content
 
 @dataclass
 class UseEffect:
@@ -77,17 +96,28 @@ class Component:
     name: str
     htmlContent: str
     css: str
-    imports: List[str] = field(default_factory=list)
+    imports: List[Imports] = field(default_factory=list)
     variables: List[Variable] = field(default_factory=list)
     functions: List[NormalFunction] = field(default_factory=list)
     lifeCycle:  List[LifeCycle] = field(default_factory=list)
     def toStr(self):
-        imports = "\n\t".join(self.imports)
+        imports = []
+        for elem in self.imports:
+            imports.append(elem.toStr())
+        imports = "\n\t".join(imports)
         variables = "\n\t".join([x.toStr() for x in self.variables])
         functions = "\n\t".join([fc.toStr() for fc in self.functions])
         lc = "\n\t".join([elem.toStr() for elem in self.lifeCycle])
         return TEMPLATE_SVELTE.format(html=self.htmlContent, imports=imports, variables=variables, functions=functions, style=self.css, lifeCycle=lc)
 
+
+@dataclass
+class File:
+    oldName: str
+    content: List[Component] = field(default_factory=list)
+    newName: str = '' # name after imports are resolved
+    isUtilsFile: bool = False
+    isFolder: bool = False
 
 matchTab = {
     FunctionnalComponent: [0, 1, 2],
@@ -96,5 +126,6 @@ matchTab = {
     Function: [0, 1, 2],
     NormalFunction: [0, 1, 2, 3],
     LifeCycle: [0, 1],
-    UseEffect: [0, 1]
+    UseEffect: [0, 1],
+    Imports: [0, 1]
 }
