@@ -1,6 +1,7 @@
 import sys
 from parseReact import parseCodebase
 from generator import generateSvelteCodebase
+from fileDependencies import resolveFileDependencies
 
 def usage(binary: str) -> None:
     print(
@@ -19,9 +20,9 @@ def argumentsHandling(argv: list) -> None:
         sys.exit(84)
 
 def main(argv: list) -> None:
-    res = ""
     argumentsHandling(argv)
     res = parseCodebase(argv[1])
+    res = resolveFileDependencies(res)
     generateSvelteCodebase(argv[2], res)
 
 if __name__ == '__main__':

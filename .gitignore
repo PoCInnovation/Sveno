@@ -1,6 +1,6 @@
 __pycache__/
 .vscode
 env
-node_modules
+*/**/node_modules
 doc/
 test/

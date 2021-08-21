@@ -1,5 +1,6 @@
 import React from 'react'
 import axios from 'axios'
+import FCTest2 from './functionnal_component';
 
 class CCWelcome extends React.Component {
   render() {

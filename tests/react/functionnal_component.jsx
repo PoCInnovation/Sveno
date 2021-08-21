@@ -43,4 +43,4 @@ function test() {
 
 }
 
-export default Test;
+export default FCTest2;
