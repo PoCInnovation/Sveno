@@ -9,7 +9,7 @@ function ActionLink() {
             <button onClick={handleClick}>
             Clique ici
             </button>
-            <button href=")#" onKeyPress={handleClick}>
+            <button href="#" onKeyPress={handleClick}>
             Clique ici
             </button>
         </div>

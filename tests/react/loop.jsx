@@ -5,7 +5,7 @@ function loop() {
 
     return (
         <div>
-            {nb.map((e) => <Component number={e}/>)}
+            {nb.map((e) => test.map((x) => <Component number={x}/>))}
         </div>
     )
     

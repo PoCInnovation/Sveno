@@ -23,7 +23,8 @@ def parseComponent(component: Component, imports: list, functions: list, css: st
     @css: simple pure css bloc as a whole string.
     """
     variables = useRegex("Variable", component.content, Variable)
-    html = "".join(useRegex("HTML", component.content, None))
+    # html = "".join(useRegex("HTML", component.content, None))
+    html = html_finder(component.content)
     fileImports = imports.copy()
     if isinstance(component, ClassComponent):
         html = regex.sub("this\.", "", html)
@@ -35,4 +36,5 @@ def parseComponent(component: Component, imports: list, functions: list, css: st
         fileImports.append(addSvelteImports(component))
     html, functions, variables = parseReactHook(component.content, html, functions, variables)
     html = parseCondition(html)
+    html = parseLoop(html)
     return Component(component.name, html, css, fileImports, variables, functions, component.lifeCycle)
