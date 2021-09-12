@@ -62,8 +62,7 @@ As of today, the following elements can be transpiled:
 * Events (onClick, onMouseMove, etc)
 
 ## Documentation
-* Install [Doxygen](https://www.doxygen.nl/download.html) 
-    - `sudo apt install doxygen`
+* Install [Doxygen](https://www.doxygen.nl/download.html)
 * To generate the documentation, just do
     - `doxygen .doxygen`
 * You can now consult the documentation by running the html statically for example with chrome

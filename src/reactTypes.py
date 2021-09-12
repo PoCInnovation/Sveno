@@ -1,5 +1,5 @@
 from dataclasses import dataclass, field
-from os import O_NDELAY
+from os import name
 from typing import List
 
 from numpy.core.records import array
@@ -21,16 +21,6 @@ class Imports:
     fromFile: bool = False
     def toStr(self):
         return TEMPLATE_IMPORTS.format(imports=self.imports, origin=self.origin)
-
-@dataclass
-class UtilsFile:
-    content: str
-    imports: List[Imports]
-    def toStr(self):
-        imports = []
-        for elem in self.imports:
-            imports.append(elem.toStr())
-        return "\n".join(imports) + '\n\n' + self.content
 
 @dataclass
 class UseEffect:
@@ -113,11 +103,24 @@ class Component:
 
 @dataclass
 class File:
-    oldName: str
+    name: str
+    path: str # path after imports are resolved
     content: List[Component] = field(default_factory=list)
-    newName: str = '' # name after imports are resolved
-    isUtilsFile: bool = False
-    isFolder: bool = False
+
+@dataclass
+class UtilsFile:
+    name: str
+    path: str
+    content: str
+    imports: List[Imports]
+    def toStr(self):
+        imports = []
+        for elem in self.imports:
+            imports.append(elem.toStr())
+        if not imports:
+            return self.content
+        return "\n".join(imports) + '\n\n' + self.content
+
 
 matchTab = {
     FunctionnalComponent: [0, 1, 2],

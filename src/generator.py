@@ -1,6 +1,7 @@
 from os import mkdir, system
 import errno
-from reactTypes import UtilsFile
+from utils import pathResolver
+from reactTypes import File, UtilsFile
 
 def createFolder(filepath: str) -> None:
     try:
@@ -11,7 +12,7 @@ def createFolder(filepath: str) -> None:
             exit(84)
 
 def cleanUp(folder: str) -> None:
-    system("npx prettier --write --plugin-search-dir=./ " + folder + "/**/*.svelte 1>/dev/null")
+    system("npx prettier --write --plugin-search-dir=./ \"" + folder + "**/**/*.svelte\" 1>/dev/null")
 
 def createFile(filepath: str, content: str) -> None:
     try:
@@ -20,21 +21,33 @@ def createFile(filepath: str, content: str) -> None:
     except OSError:
         print('Couldn\'t write to file')
 
-
-def generateSvelteCodebase(newFolder: str, newFiles: list) -> None:
-    fullPath = ""
-
+def createTree(folderPath: str, newFolder, files: list):
+    newFolder = pathResolver(newFolder)
     createFolder(newFolder)
-    print("Writing new files")
-    print(newFolder)
+    filesResolved = []
+    for file in files:
+        fileResolved = file.replace(folderPath, '')
+        if fileResolved[0] == '/':
+            fileResolved = fileResolved[1:]
+        filesResolved += [fileResolved]
+    print('Found the following files to transpile:')
+    for file in filesResolved:
+        folders = file.split('/')
+        path = ""
+        folders.pop()
+        for elem in folders:
+            path += elem + '/'
+            createFolder(newFolder + path)
+        print(file)
+
+def generateSvelteCodebase(oldFolder: str, newFolder: str, newFiles: list) -> None:
     for newFile in newFiles:
-        fullPath = newFolder + '/' + newFile.newName
-        if newFile.isFolder:
-            createFolder(fullPath)
-        elif type(newFile.content) == UtilsFile:
-            createFile(fullPath + ".js", newFile.content.toStr())
-            print(fullPath + ".js")
+        if type(newFile) == UtilsFile:
+            path = pathResolver(newFile.path.replace(oldFolder, newFolder))
+            createFile(path + newFile.name, newFile.content)
+            continue
         else:
-            print(fullPath + ".svelte")
-            createFile(fullPath + ".svelte", newFile.content.toStr())
+            path = pathResolver(newFile.path.replace(oldFolder, newFolder))
+            createFolder(path)
+            createFile(path + newFile.name + ".svelte", newFile.content)
     cleanUp(newFolder)

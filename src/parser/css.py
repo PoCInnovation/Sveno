@@ -44,6 +44,8 @@ def search_class(content, css):
 def openCssFile(result, path):
    Pattern = REGEXP['Path Css'].findall(path)
    result = regex.sub('./', '', result)
+   if len(Pattern) == 0:
+      return ""
    path = regex.sub(Pattern[0], result, path)
    fd = open(path, 'r')
    return (fd.read())
